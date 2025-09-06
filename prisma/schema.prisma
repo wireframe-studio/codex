@@ -1,0 +1,44 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["relationJoins"]
+  output          = "./generated"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ------------------
+
+model Article {
+  id String @id @default(cuid())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  content Json?
+
+  Files S3Object[] @relation("ArticleToFile")
+}
+
+// ------------------
+
+model S3Object {
+  id          String @id @default(cuid())
+  key         String
+  contentType String
+  size        Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Articles Article[] @relation("ArticleToFile")
+}
+
+// ------------------
+
+model KV {
+  key   String @id
+  value String
+}

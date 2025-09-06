@@ -1,0 +1,85 @@
+'use client';
+
+import { JSONContent, useEditor } from '@tiptap/react';
+
+import { tiptapExtensionsEditable } from '@/deps/tiptap/extensions';
+import { api } from '@/deps/trpc/react';
+import { useDebouncedEffect } from '@/global/hooks/use-debounced-effect';
+import { useEffect, useState } from 'react';
+
+export const useArticleForm = (articleId: string) => {
+	// APIs
+	const updateContent = api.article.content.update.useMutation();
+	const remoteArticle = api.article.get.useQuery({
+		articleId
+	});
+
+	// Local content
+	const [localContent, setLocalContent] = useState<JSONContent | null>(null);
+	const [isSaving, setIsSaving] = useState(false);
+	const [_contentKey, setContentKey] = useState(0);
+
+	const editor = useEditor({
+		immediatelyRender: false,
+		extensions: tiptapExtensionsEditable,
+		editable: remoteArticle.isLoading,
+		editorProps: {
+			attributes: {
+				class: 'rounded-md outline-none flex flex-col gap-2'
+			}
+		},
+		onBlur: () => {},
+		onUpdate({ editor }) {
+			setContentKey((prev) => prev + 1);
+			setIsSaving(true);
+			setLocalContent(editor.getJSON());
+		}
+	});
+
+	// Remote content
+	const remoteContent = remoteArticle.data?.content as JSONContent;
+
+	// Update editor with remote content
+	useEffect(() => {
+		if (!editor || !remoteContent) return;
+
+		// if (JSON.stringify(editor.getJSON()) === JSON.stringify(remoteContent)) {
+		// 	console.log('same');
+
+		// 	return;
+		// }
+
+		// flushSync error fix
+		Promise.resolve().then(() => {
+			editor.commands.setContent(remoteContent);
+		});
+	}, [editor, remoteContent]);
+
+	// Saving
+	const updateArticleContent = async (content: JSONContent | null) => {
+		console.log('_contentKey', _contentKey);
+
+		if (_contentKey === 0) return;
+
+		console.log('content', content);
+
+		await updateContent.mutateAsync({
+			articleId,
+			content: content
+		});
+
+		// utils.article.get.invalidate();
+
+		setIsSaving(false);
+	};
+
+	useDebouncedEffect(
+		() => {
+			updateArticleContent(localContent);
+		},
+		[localContent],
+		1000
+	);
+
+	return { editor, isSaving };
+};
