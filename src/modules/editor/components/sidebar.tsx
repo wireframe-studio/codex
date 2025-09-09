@@ -1,7 +1,6 @@
 'use client';
 
 import { Button } from '@/deps/shadcn/ui/button';
-import { cn } from '@/deps/shadcn/utils';
 import { ThemeToggler } from '@/deps/tailwind/theme/components/theme-toggler';
 import { api } from '@/deps/trpc/react';
 import Link from 'next/link';
@@ -25,81 +24,65 @@ export const Sidebar = () => {
 
 	const pathname = usePathname();
 
-	// Extract articleId from pathname like "/article/123" -> "123"
 	const selectedArticleId = pathname.startsWith('/article/')
 		? pathname.split('/')[2]
 		: null;
 
-	const Header = () => {
+	// Collapsed view
+	if (!expanded) {
 		return (
-			<div className="flex flex-row justify-between items-center px-2 py-4">
+			<div className="m-6">
+				<Button
+					variant="ghost"
+					onClick={() => setExpanded(!expanded)}
+					singleIcon="sidebar"
+				/>
+			</div>
+		);
+	}
+
+	// Expanded view
+	return (
+		<div className="flex flex-col gap-4 self-stretch shrink-0 w-[240px] m-2 border rounded-xl border-neutral-medium bg-section">
+			{/* Header */}
+			<div className="flex flex-row justify-between items-center px-4 py-4">
 				<h1 className="title-2 text-neutral">Codex</h1>
 				<Button
 					variant="ghost"
-					onClick={() => setExpanded(!expanded)}
+					onClick={() => setExpanded(false)}
 					singleIcon="sidebar"
 				/>
 			</div>
-		);
-	};
-
-	if (!expanded)
-		return (
-			<div
-				className={cn(
-					'flex flex-col gap-4',
-					'h-full self-stretch',
-					'px-2 py-4',
-					'bg-section border-r border-r-neutral-medium'
-				)}>
-				<Button
-					variant="ghost"
-					onClick={() => setExpanded(!expanded)}
-					singleIcon="sidebar"
-				/>
-				<Button
-					variant="solid-weak"
-					onClick={handleCreateArticle}
-					singleIcon="add-circle"
-				/>
-				<ThemeToggler />
-			</div>
-		);
-
-	return (
-		<div
-			className={cn(
-				'flex flex-col',
-				'gap-4',
-				'h-full self-stretch',
-				'bg-section border-r border-r-neutral-medium'
-			)}>
-			<Header />
 
 			<div className="px-2">
 				<Button
-					variant="solid-weak"
+					variant="outline"
 					onClick={handleCreateArticle}
-					rightIcon="add-circle">
+					rightIcon="add-circle"
+					className="w-full">
 					Create Article
 				</Button>
 			</div>
 
-			<div className="flex-1 px-2 overflow-y-scroll scrollbar-hidden flex flex-col">
-				{articleList.data?.articles.map((article) => (
-					<Link
-						href={`/article/${article.id}`}
-						key={article.id}
-						className={cn(
-							'body-2 text-neutral-strong hover:text-neutral',
-							'px-3 py-2 rounded-md cursor-pointer',
-							'border border-transparent',
-							selectedArticleId === article.id &&
-								'bg-neutral-weak border-neutral-medium text-neutral'
-						)}>
-						{article.title}
-					</Link>
-				))}
+			{/* Article List */}
+			<div className="flex-1 px-1 overflow-y-scroll scrollbar-hidden flex flex-col">
+				{articleList.data?.articles.map((article) => {
+					const isSelected = selectedArticleId === article.id;
+
+					return (
+						<Link href={`/article/${article.id}`} key={article.id}>
+							<Button
+								variant={isSelected ? 'solid-weak' : 'ghost'}
+								className="w-full justify-start">
+								{article.title}
+							</Button>
+						</Link>
+					);
+				})}
+			</div>
+
+			<div className="p-2">
+				<ThemeToggler className="w-full" variant="solid-weak" />
 			</div>
 		</div>
 	);
