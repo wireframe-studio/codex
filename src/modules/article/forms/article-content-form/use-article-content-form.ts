@@ -7,12 +7,13 @@ import { api } from '@/deps/trpc/react';
 import { useDebouncedEffect } from '@/global/hooks/use-debounced-effect';
 import { useEffect, useState } from 'react';
 
-export const useArticleForm = (articleId: string) => {
+export const useArticleContentForm = (articleId: string) => {
 	// APIs
 	const updateContent = api.article.content.update.useMutation();
 	const remoteArticle = api.article.get.useQuery({
 		articleId
 	});
+	const utils = api.useUtils();
 
 	// Local content
 	const [localContent, setLocalContent] = useState<JSONContent | null>(null);
@@ -41,13 +42,7 @@ export const useArticleForm = (articleId: string) => {
 
 	// Update editor with remote content
 	useEffect(() => {
-		if (!editor || !remoteContent) return;
-
-		// if (JSON.stringify(editor.getJSON()) === JSON.stringify(remoteContent)) {
-		// 	console.log('same');
-
-		// 	return;
-		// }
+		if (!editor) return;
 
 		// flushSync error fix
 		Promise.resolve().then(() => {
@@ -69,6 +64,7 @@ export const useArticleForm = (articleId: string) => {
 		});
 
 		// utils.article.get.invalidate();
+		utils.article.get.invalidate({ articleId });
 
 		setIsSaving(false);
 	};

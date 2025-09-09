@@ -15,22 +15,6 @@ import { Strike } from '@tiptap/extension-strike';
 import { Text } from '@tiptap/extension-text';
 
 import { type Extensions } from '@tiptap/react';
-import {
-	doctorListExtensionsEditable,
-	doctorListExtensionsViewable
-} from './components/doctor-list/extension';
-import {
-	galleryExtensionsEditable,
-	galleryExtensionsViewable
-} from './components/gallery/extension';
-import {
-	imageTextExtensionsEditable,
-	imageTextExtensionsViewable
-} from './components/image-text/extension';
-import {
-	priceListExtensionsEditable,
-	priceListExtensionsViewable
-} from './components/price-list/extension';
 
 const baseExtensions: Extensions = [
 	Document,
@@ -80,17 +64,17 @@ const baseExtensions: Extensions = [
 
 export const tiptapExtensionsEditable: Extensions = [
 	...baseExtensions,
-	...priceListExtensionsEditable,
-	...galleryExtensionsEditable,
-	...imageTextExtensionsEditable,
-	...doctorListExtensionsEditable,
+	// ...priceListExtensionsEditable,
+	// ...galleryExtensionsEditable,
+	// ...imageTextExtensionsEditable,
+	// ...doctorListExtensionsEditable,
 	History
 ];
 
 export const tiptapExtensionsViewable: Extensions = [
-	...baseExtensions,
-	...priceListExtensionsViewable,
-	...galleryExtensionsViewable,
-	...imageTextExtensionsViewable,
-	...doctorListExtensionsViewable
+	...baseExtensions
+	// ...priceListExtensionsViewable,
+	// ...galleryExtensionsViewable,
+	// ...imageTextExtensionsViewable,
+	// ...doctorListExtensionsViewable
 ];

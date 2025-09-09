@@ -49,7 +49,7 @@ export const EditorToolbar = ({
 	}
 
 	return (
-		<div className="flex flex-row gap-3 px-6 overflow-x-auto scrollbar-hidden">
+		<div className="sticky top-3 z-10 flex flex-row gap-3 px-3 py-2 rounded-md overflow-x-auto scrollbar-hidden bg-section">
 			<div className="flex flex-row items-center flex-1">
 				<div className="flex flex-row gap-3">
 					<div className="flex flex-row gap-2">

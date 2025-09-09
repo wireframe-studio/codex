@@ -17,9 +17,27 @@ model Article {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  title       String       @default("New Article")
+  description String?
+  date        DateTime?    @default(now())
+  // author String?
+  tags        String[]
+  type        ArticleType? @default(BLOG)
+
+  companyVisibility Boolean @default(false)
+  published         Boolean @default(false)
+
+  views     Int @default(0)
+  reactions Int @default(0)
+
   content Json?
 
   Files S3Object[] @relation("ArticleToFile")
+}
+
+enum ArticleType {
+  BLOG
+  CASE_STUDY
 }
 
 // ------------------

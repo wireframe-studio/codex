@@ -1,6 +1,5 @@
 import { z } from 'zod';
 
-import { validateJSONContent } from '@/deps/tiptap/validate-json-content';
 import { authedProcedure } from '@/deps/trpc/procedures';
 import { JSONContent } from '@tiptap/react';
 import { TRPCError } from '@trpc/server';
@@ -23,28 +22,28 @@ export const contentUpdateProcedure = authedProcedure
 		);
 		console.log('fileIds');
 
-		try {
-		} catch (error) {
-			validateJSONContent(content);
-			console.error(error);
-			throw new TRPCError({
-				code: 'BAD_REQUEST',
-				message: 'Invalid content'
-			});
-		}
+		// try {
+		// 	validateJSONContent(content);
+		// } catch (error) {
+		// 	console.error(error);
+		// 	throw new TRPCError({
+		// 		code: 'BAD_REQUEST',
+		// 		message: 'Invalid content'
+		// 	});
+		// }
 
-		const articleRaw = await ctx.db.article.findUnique({
+		const articleExists = !!(await ctx.db.article.findUnique({
 			where: { id: articleId }
-		});
+		}));
 
-		if (!articleRaw) {
+		if (!articleExists) {
 			throw new TRPCError({
 				code: 'NOT_FOUND',
 				message: 'Article not found'
 			});
 		}
 
-		const article = await db.article.update({
+		const articleRaw = await db.article.update({
 			where: { id: articleId },
 			data: {
 				content: content as JSONContent,
@@ -53,6 +52,8 @@ export const contentUpdateProcedure = authedProcedure
 				}
 			}
 		});
+
+		const article = articleRaw;
 
 		return { article };
 	});
