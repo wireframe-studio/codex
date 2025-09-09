@@ -1,3 +1,5 @@
+'use client';
+
 import { api } from '@/deps/trpc/react';
 import { Spinner } from '@/global/components/spinner';
 import { Article } from '@prisma/client';

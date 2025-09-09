@@ -4,56 +4,31 @@ import { Button } from '@/deps/shadcn/ui/button';
 import { cn } from '@/deps/shadcn/utils';
 import { ThemeToggler } from '@/deps/tailwind/theme/components/theme-toggler';
 import { api } from '@/deps/trpc/react';
-import { useEffect, useState } from 'react';
-import { useEditorLayout } from './editor-layout-context';
+import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
+import { useState } from 'react';
 
-const useSidebar = () => {
+export const Sidebar = () => {
 	const articleList = api.article.list.useQuery();
 	const createArticle = api.article.create.useMutation();
 	const utils = api.useUtils();
 
-	const { setArticleId, articleId } = useEditorLayout();
+	const router = useRouter();
 
-	const [expanded, setExpanded] = useState(false);
-
-	// load expanded from local storage
-	useEffect(() => {
-		const expanded = localStorage.getItem('expanded');
-		if (expanded) {
-			setExpanded(expanded === 'true');
-		}
-	}, []);
-
-	// save expanded to local storage
-	useEffect(() => {
-		localStorage.setItem('expanded', expanded.toString());
-	}, [expanded]);
+	const [expanded, setExpanded] = useState(true);
 
 	const handleCreateArticle = async () => {
 		const article = await createArticle.mutateAsync();
 		utils.article.list.invalidate();
-		setArticleId(article.article.id);
+		router.push(`/article/${article.article.id}`);
 	};
 
-	return {
-		articleList,
-		setExpanded,
-		expanded,
-		setArticleId,
-		articleId,
-		handleCreateArticle
-	};
-};
+	const pathname = usePathname();
 
-export const Sidebar = () => {
-	const {
-		articleList,
-		setExpanded,
-		expanded,
-		setArticleId,
-		articleId,
-		handleCreateArticle
-	} = useSidebar();
+	// Extract articleId from pathname like "/article/123" -> "123"
+	const selectedArticleId = pathname.startsWith('/article/')
+		? pathname.split('/')[2]
+		: null;
 
 	const Header = () => {
 		return (
@@ -112,18 +87,18 @@ export const Sidebar = () => {
 
 			<div className="flex-1 px-2 overflow-y-scroll scrollbar-hidden flex flex-col">
 				{articleList.data?.articles.map((article) => (
-					<div
+					<Link
+						href={`/article/${article.id}`}
 						key={article.id}
 						className={cn(
 							'body-2 text-neutral-strong hover:text-neutral',
 							'px-3 py-2 rounded-md cursor-pointer',
 							'border border-transparent',
-							articleId === article.id &&
+							selectedArticleId === article.id &&
 								'bg-neutral-weak border-neutral-medium text-neutral'
-						)}
-						onClick={() => setArticleId(article.id)}>
+						)}>
 						{article.title}
-					</div>
+					</Link>
 				))}
 			</div>
 		</div>

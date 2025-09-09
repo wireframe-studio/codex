@@ -1,4 +1,4 @@
-import { Sidebar } from './sidebar';
+import { Sidebar } from '../components/sidebar';
 
 export const EditorLayout = ({ children }: { children?: React.ReactNode }) => {
 	return (
