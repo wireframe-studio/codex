@@ -1,6 +1,6 @@
 cd public/assets/icons
 
-ls > all.txt
+ls | grep -v '^all\.txt$' > all.txt
 
 icons_ts="../../../src/global/components/icon/icons.ts"
 
@@ -14,3 +14,5 @@ done
 echo "} as const;" >> $icons_ts
 
 cat $icons_ts
+
+rm all.txt

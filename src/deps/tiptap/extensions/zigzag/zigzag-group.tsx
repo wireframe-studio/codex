@@ -53,7 +53,7 @@ const extension = Node.create({
 			({ editor, node, getPos, selected }: NodeViewProps) => {
 				const numberOfChildren = node.childCount;
 
-				const addItem = () => {
+				const handleAddItem = () => {
 					const pos = getPos() + node.nodeSize - 1;
 					editor
 						.chain()
@@ -83,7 +83,7 @@ const extension = Node.create({
 						<Button
 							variant="solid-weak"
 							size="sm"
-							onClick={addItem}
+							onClick={handleAddItem}
 							rightIcon="add-circle">
 							Add Item
 						</Button>

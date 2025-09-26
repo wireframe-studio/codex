@@ -72,6 +72,21 @@ export const fileRouter = createTRPCRouter({
 			console.log(file);
 		}),
 
+	deleteFileById: authedProcedure
+		.input(z.object({ fileId: z.string() }))
+		.mutation(async ({ ctx, input }) => {
+			const { fileId } = input;
+			const fileRaw = await ctx.db.s3Object.findFirst({
+				where: { id: fileId }
+			});
+
+			if (!fileRaw) {
+				throw new TRPCError({ code: 'NOT_FOUND', message: 'File not found' });
+			}
+
+			await deleteFile(fileRaw.key);
+		}),
+
 	getFileDownloadUrl: publicProcedure
 		.input(z.object({ fileId: z.string() }))
 		.query(async ({ ctx, input }) => {
