@@ -20,6 +20,7 @@ const nodeName = 'zigzagItem';
 
 const defaultAttributes = {
 	imageId: '',
+	imageUrl: '',
 	text: 'Hello',
 	align: 'left' as 'left' | 'right'
 };
@@ -92,7 +93,8 @@ const extension = Node.create({
 	addNodeView() {
 		return ReactNodeViewRenderer(
 			({ editor, node, updateAttributes, deleteNode, selected, getPos }) => {
-				const { imageId, align, text } = node.attrs as typeof defaultAttributes;
+				const { imageId, align, text, imageUrl } =
+					node.attrs as typeof defaultAttributes;
 
 				const pos = getPos();
 				const resolvedPos = editor.state.doc.resolve(pos);
@@ -141,7 +143,7 @@ const extension = Node.create({
 					setIsLoading(true);
 					await deleteFile.mutateAsync({ fileId: imageId });
 					setIsLoading(false);
-					updateAttributes({ imageId: '' });
+					updateAttributes({ imageId: '', imageUrl: '' });
 				};
 
 				const textRef = useRef<HTMLDivElement>(null);
