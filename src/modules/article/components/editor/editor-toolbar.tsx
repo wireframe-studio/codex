@@ -7,8 +7,8 @@ import { Badge } from '@/deps/shadcn/ui/badge';
 import { Button } from '@/deps/shadcn/ui/button';
 import { Spinner } from '@/global/components/spinner';
 
-import test from '@/deps/tiptap/extensions/test';
-import testGroup from '@/deps/tiptap/extensions/test-group';
+import zigzagGroup from '@/deps/tiptap/extensions/zigzag/zigzag-group';
+import zigzagItem from '@/deps/tiptap/extensions/zigzag/zigzag-item';
 
 export const EditorToolbar = ({
 	editor,
@@ -150,88 +150,17 @@ export const EditorToolbar = ({
 									.chain()
 									.focus()
 									.insertContent({
-										type: testGroup.name,
+										type: zigzagGroup.name,
 										content: [
 											{
-												type: test.name,
-												attrs: test.defaultAttributes
+												type: zigzagItem.name,
+												attrs: zigzagItem.defaultAttributes
 											}
 										]
 									})
 									.insertContent({
 										type: 'paragraph',
 										content: []
-									})
-									.run();
-							}}
-						/>
-						<Button
-							size="xs"
-							theme="neutral"
-							variant="ghost"
-							singleIcon="image-text"
-							disabled={locked}
-							onClick={() => {
-								editor
-									.chain()
-									.focus()
-									.insertContent({
-										type: 'imageText',
-										attrs: { src: '' },
-										content: [
-											{
-												type: 'paragraph',
-												content: []
-											}
-										]
-									})
-									.insertContent({
-										type: 'paragraph',
-										content: []
-									})
-									.run();
-							}}
-						/>
-						<Button
-							size="xs"
-							theme="neutral"
-							variant="ghost"
-							singleIcon="list-board"
-							disabled={locked}
-							onClick={() => {
-								editor
-									.chain()
-									.focus()
-									.insertContent({
-										type: 'priceList',
-										content: [
-											{
-												type: 'priceListItem',
-												attrs: { name: '', description: '', price: '' }
-											}
-										]
-									})
-									.insertContent({
-										type: 'paragraph',
-										content: []
-									})
-									.run();
-							}}
-						/>
-						<Button
-							size="xs"
-							theme="neutral"
-							variant="ghost"
-							singleIcon="users"
-							disabled={locked}
-							onClick={() => {
-								console.log('Inserting doctor list component');
-								editor
-									.chain()
-									.focus()
-									.insertContent({
-										type: 'doctorList',
-										attrs: { ids: '' }
 									})
 									.run();
 							}}

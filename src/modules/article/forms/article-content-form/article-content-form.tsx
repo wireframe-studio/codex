@@ -54,7 +54,7 @@ export const ArticleContentForm = () => {
 					<Button singleIcon="drag" variant="ghost" size="xs" />
 				</DragHandle>
 				<EditorContent editor={editor} />
-				<pre className="body-3">
+				<pre className="body-3 text-neutral-strong">
 					{indentHTML(
 						JSON.stringify(editor.getHTML(), null, 2)
 							.slice(1)

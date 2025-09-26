@@ -19,6 +19,8 @@ import { TrailingNode } from '@tiptap/extensions/trailing-node';
 import { type Extensions } from '@tiptap/react';
 import test from './extensions/test';
 import testGroup from './extensions/test-group';
+import zigzagGroup from './extensions/zigzag/zigzag-group';
+import zigzagItem from './extensions/zigzag/zigzag-item';
 
 const baseExtensions: Extensions = [
 	Document,
@@ -76,6 +78,8 @@ export const tiptapExtensionsEditable: Extensions = [
 	// ...doctorListExtensionsEditable,
 	test.extension,
 	testGroup.extension,
+	zigzagGroup.extension,
+	zigzagItem.extension,
 	History
 ];
 

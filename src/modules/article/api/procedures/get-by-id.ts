@@ -20,7 +20,20 @@ export const getByIdProcedure = publicProcedure
 			throw new TRPCError({ code: 'NOT_FOUND', message: 'Article not found' });
 		}
 
-		const article = articleRaw;
+		const article = {
+			id: articleRaw.id,
+			createdAt: articleRaw.createdAt,
+			updatedAt: articleRaw.updatedAt,
+			title: articleRaw.title,
+			description: articleRaw.description,
+			date: articleRaw.date,
+			tags: articleRaw.tags,
+			type: articleRaw.type,
+			companyVisibility: articleRaw.companyVisibility,
+			published: articleRaw.published,
+			views: articleRaw.views,
+			reactions: articleRaw.reactions
+		};
 
 		return article;
 	});

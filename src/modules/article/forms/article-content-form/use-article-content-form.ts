@@ -10,7 +10,7 @@ import { useDebouncedEffect } from '@/global/hooks/use-debounced-effect';
 export const useArticleContentForm = (articleId: string) => {
 	// APIs
 	const updateContent = api.article.content.update.useMutation();
-	const remoteArticle = api.article.get.useQuery({
+	const remoteArticle = api.article.content.get.useQuery({
 		articleId
 	});
 	const utils = api.useUtils();
@@ -29,6 +29,9 @@ export const useArticleContentForm = (articleId: string) => {
 				class:
 					'rounded-lg border border-neutral-medium outline-none flex flex-col gap-2 p-6'
 			}
+		},
+		onContentError({ error }) {
+			console.error('onContentError', error);
 		},
 		onBlur: () => {},
 		onUpdate({ editor }) {
@@ -63,8 +66,6 @@ export const useArticleContentForm = (articleId: string) => {
 			articleId,
 			content: content
 		});
-
-		utils.article.get.invalidate({ articleId });
 
 		setIsSaving(false);
 	};
