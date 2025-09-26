@@ -14,7 +14,7 @@ export const Sidebar = () => {
 
 	const router = useRouter();
 
-	const [expanded, setExpanded] = useState(true);
+	const [expanded, setExpanded] = useState(false);
 
 	const handleCreateArticle = async () => {
 		const article = await createArticle.mutateAsync();

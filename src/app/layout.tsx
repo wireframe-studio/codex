@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 
 import { EditorLayout } from '@/modules/editor/components/editor-layout';
 import '@/styles/index.css';
-import { BodyProviders } from './body-providers';
+import { BodyOverlays } from './body-overlays';
 import { Providers } from './providers';
 
 export const metadata: Metadata = {
@@ -20,9 +20,9 @@ export default function RootLayout({
 		<Providers>
 			<html lang="en">
 				<body className={`antialiased bg-background overflow-x-hidden`}>
-					<BodyProviders>
+					<BodyOverlays>
 						<EditorLayout>{children}</EditorLayout>
-					</BodyProviders>
+					</BodyOverlays>
 				</body>
 			</html>
 		</Providers>

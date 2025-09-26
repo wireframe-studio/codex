@@ -47,7 +47,7 @@ const GalleryItemEditable = Node.create({
 		return [
 			'div',
 			mergeAttributes(HTMLAttributes, { 'data-type': 'galleryItem' }),
-			['span', { 'data-field': 'fileId' }, node.attrs.fileId || '']
+			['span', { 'data-field': 'fileId' }, node.attrs.fileId ?? '']
 		];
 	},
 	addNodeView() {

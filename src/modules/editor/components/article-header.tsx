@@ -4,22 +4,7 @@ import { Button } from '@/deps/shadcn/ui/button';
 import { useArticle } from '@/modules/article/contexts/use-article';
 import { useState } from 'react';
 import { ArticleMetadataUpdateForm } from '../forms/article-metadata-update/article-metadata-update-form';
-
-const ArticleAnalyticsCard = () => {
-	return (
-		<div className="grid grid-cols-2 gap-2 p-4 bg-section rounded-md">
-			<div className="text-neutral caption">Views</div>
-			<input className="text-neutral input" type="number" placeholder="Views" />
-
-			<div className="text-neutral caption">Reactions</div>
-			<input
-				className="text-neutral input"
-				type="number"
-				placeholder="Reactions"
-			/>
-		</div>
-	);
-};
+import { ArticleAnalyticsCard } from './article-analytics';
 
 export const ArticleHeader = () => {
 	const { articleId, article } = useArticle();
@@ -58,13 +43,13 @@ export const ArticleHeader = () => {
 			<ArticleInfo />
 
 			{showMetadata && articleId && (
-				<div className="p-4 bg-section rounded-md mx-6">
+				<div className="p-4 bg-section rounded-lg mx-6">
 					<ArticleMetadataUpdateForm />
 				</div>
 			)}
 
 			{showAnalytics && (
-				<div className="p-4 bg-section rounded-md mx-6">
+				<div className="p-4 bg-section rounded-lg mx-6">
 					<ArticleAnalyticsCard />
 				</div>
 			)}

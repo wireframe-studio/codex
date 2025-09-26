@@ -2,6 +2,7 @@
 /* Note: Gilroy font needs to be added separately as it's not available on Google Fonts */
 
 @import 'tailwindcss';
+
 @layer base;
 @layer components;
 @layer utilities;

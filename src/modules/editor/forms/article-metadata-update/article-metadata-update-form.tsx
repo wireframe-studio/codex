@@ -4,6 +4,16 @@ import { DatePicker } from '@/deps/shadcn/ui/date-picker';
 import { Input } from '@/deps/shadcn/ui/input';
 import { useArticleMetadataForm } from './use-article-metadata-update-form';
 
+const transformDate = (date: Date | null | undefined) => {
+	if (!date) return date;
+
+	const newDate = new Date(date);
+	newDate.setHours(0, 0, 0, 0);
+
+	// set time to 00:00:00
+	return new Date(date);
+};
+
 export const ArticleMetadataUpdateForm = () => {
 	const { form } = useArticleMetadataForm();
 
@@ -19,37 +29,37 @@ export const ArticleMetadataUpdateForm = () => {
 				{...form.register('title')}
 			/>
 
+			<div className="text-neutral caption">Description</div>
+			<Input
+				className="text-neutral input"
+				type="text"
+				placeholder="Description"
+				{...form.register('description')}
+			/>
+
 			<div className="text-neutral caption">Date</div>
 			<DatePicker
-				value={form.watch('date') ?? undefined}
+				value={transformDate(form.watch('date')) ?? undefined}
 				onChange={(date) => {
-					form.setValue('date', date);
+					form.setValue('date', transformDate(date), {
+						shouldDirty: true
+					});
 				}}
 			/>
 
-			<div className="text-neutral caption">Wireframe worthy</div>
+			<div className="text-neutral caption">Public visibility</div>
 			<Input
 				className="text-neutral input"
 				type="checkbox"
-				placeholder="Wireframe worthy"
-				{...form.register('companyVisibility')}
+				{...form.register('published')}
 			/>
 
-			{/* <div className="text-neutral caption">Author</div>
-				<Input
-					className="text-neutral input"
-					type="text"
-					placeholder="Author"
-					{...form.register('author')}
-				/> */}
-
-			{/* <div className="text-neutral caption">Tags</div>
-				<Input
-					className="text-neutral input"
-					type="text"
-					placeholder="Tags"
-					{...form.register('tags')}
-				/> */}
+			<div className="text-neutral caption">Showcase visibility</div>
+			<Input
+				className="text-neutral input"
+				type="checkbox"
+				{...form.register('companyVisibility')}
+			/>
 
 			<div className="text-neutral caption">Type</div>
 			<Input

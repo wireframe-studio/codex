@@ -1,9 +1,5 @@
 @import 'tailwindcss';
 
-@theme {
-	--font-display: 'Gilroy', sans-serif;
-}
-
 /* Base styles */
 @theme {
 	--font-nunito: 'Nunito Sans', sans-serif;

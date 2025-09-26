@@ -1,7 +1,7 @@
 import NextTopLoader from 'nextjs-toploader';
 import { Toaster } from 'sonner';
 
-export const BodyProviders = ({ children }: { children: React.ReactNode }) => {
+export const BodyOverlays = ({ children }: { children: React.ReactNode }) => {
 	return (
 		<>
 			<NextTopLoader

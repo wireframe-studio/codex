@@ -72,7 +72,12 @@ export const useArticleMetadataForm = () => {
 		const updatedArticle = await updateMetadata.mutateAsync({
 			articleId: articleId,
 			metadata: {
-				title: data.title
+				title: data.title,
+				companyVisibility: data.companyVisibility,
+				date: data.date,
+				type: data.type,
+				published: data.published,
+				description: data.description
 			}
 		});
 

@@ -9,7 +9,7 @@ import { useState } from 'react';
 
 export const PriceListNodeView = ({ node }: { node: any }) => {
 	// node is a priceList node
-	const items = node.content?.content || [];
+	const items = node.content?.content ?? [];
 	return (
 		<NodeViewWrapper
 			as="div"

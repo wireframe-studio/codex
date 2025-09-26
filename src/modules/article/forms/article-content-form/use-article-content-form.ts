@@ -1,11 +1,11 @@
 'use client';
 
-import { JSONContent, useEditor } from '@tiptap/react';
+import { type JSONContent, useEditor } from '@tiptap/react';
+import { useEffect, useState } from 'react';
 
 import { tiptapExtensionsEditable } from '@/deps/tiptap/extensions';
 import { api } from '@/deps/trpc/react';
 import { useDebouncedEffect } from '@/global/hooks/use-debounced-effect';
-import { useEffect, useState } from 'react';
 
 export const useArticleContentForm = (articleId: string) => {
 	// APIs
@@ -21,12 +21,13 @@ export const useArticleContentForm = (articleId: string) => {
 	const [_contentKey, setContentKey] = useState(0);
 
 	const editor = useEditor({
-		immediatelyRender: false,
+		// immediatelyRender: true,
 		extensions: tiptapExtensionsEditable,
-		editable: remoteArticle.isLoading,
+		// editable: remoteArticle.isLoading,
 		editorProps: {
 			attributes: {
-				class: 'rounded-md outline-none flex flex-col gap-2'
+				class:
+					'rounded-lg border border-neutral-medium outline-none flex flex-col gap-2 p-6'
 			}
 		},
 		onBlur: () => {},
@@ -56,14 +57,13 @@ export const useArticleContentForm = (articleId: string) => {
 
 		if (_contentKey === 0) return;
 
-		console.log('content', content);
+		console.log(content);
 
 		await updateContent.mutateAsync({
 			articleId,
 			content: content
 		});
 
-		// utils.article.get.invalidate();
 		utils.article.get.invalidate({ articleId });
 
 		setIsSaving(false);

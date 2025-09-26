@@ -7,6 +7,9 @@ import { Badge } from '@/deps/shadcn/ui/badge';
 import { Button } from '@/deps/shadcn/ui/button';
 import { Spinner } from '@/global/components/spinner';
 
+import test from '@/deps/tiptap/extensions/test';
+import testGroup from '@/deps/tiptap/extensions/test-group';
+
 export const EditorToolbar = ({
 	editor,
 	isSaving
@@ -49,7 +52,7 @@ export const EditorToolbar = ({
 	}
 
 	return (
-		<div className="sticky top-3 z-10 flex flex-row gap-3 px-3 py-2 rounded-md overflow-x-auto scrollbar-hidden bg-section">
+		<div className="sticky top-3 z-10 flex flex-row gap-3 px-3 py-2 rounded-lg items-center overflow-x-auto scrollbar-hidden bg-section">
 			<div className="flex flex-row items-center flex-1">
 				<div className="flex flex-row gap-3">
 					<div className="flex flex-row gap-2">
@@ -147,8 +150,13 @@ export const EditorToolbar = ({
 									.chain()
 									.focus()
 									.insertContent({
-										type: 'galleryGrid',
-										content: []
+										type: testGroup.name,
+										content: [
+											{
+												type: test.name,
+												attrs: test.defaultAttributes
+											}
+										]
 									})
 									.insertContent({
 										type: 'paragraph',

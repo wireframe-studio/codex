@@ -48,9 +48,9 @@ const PriceListItemEditable = Node.create({
 		return [
 			'div',
 			mergeAttributes(HTMLAttributes, { 'data-type': 'priceListItem' }),
-			['span', { 'data-field': 'name' }, node.attrs.name || ''],
-			['span', { 'data-field': 'description' }, node.attrs.description || ''],
-			['span', { 'data-field': 'price' }, node.attrs.price || '']
+			['span', { 'data-field': 'name' }, node.attrs.name ?? ''],
+			['span', { 'data-field': 'description' }, node.attrs.description ?? ''],
+			['span', { 'data-field': 'price' }, node.attrs.price ?? '']
 		];
 	},
 	addNodeView() {

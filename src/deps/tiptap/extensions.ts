@@ -14,12 +14,16 @@ import { Placeholder } from '@tiptap/extension-placeholder';
 import { Strike } from '@tiptap/extension-strike';
 import { Text } from '@tiptap/extension-text';
 
+import { TrailingNode } from '@tiptap/extensions/trailing-node';
+
 import { type Extensions } from '@tiptap/react';
+import test from './extensions/test';
+import testGroup from './extensions/test-group';
 
 const baseExtensions: Extensions = [
 	Document,
 	Placeholder.configure({
-		placeholder: 'Napiši nešto...'
+		placeholder: 'Write something...'
 	}),
 	Paragraph.configure({
 		HTMLAttributes: {
@@ -59,7 +63,9 @@ const baseExtensions: Extensions = [
 		HTMLAttributes: {
 			class: 'element-ordered-list'
 		}
-	})
+	}),
+	// Dropcursor,
+	TrailingNode
 ];
 
 export const tiptapExtensionsEditable: Extensions = [
@@ -68,6 +74,8 @@ export const tiptapExtensionsEditable: Extensions = [
 	// ...galleryExtensionsEditable,
 	// ...imageTextExtensionsEditable,
 	// ...doctorListExtensionsEditable,
+	test.extension,
+	testGroup.extension,
 	History
 ];
 
