@@ -1,16 +1,17 @@
 'use client';
+
+import { useArticle } from '@/modules/article/contexts/use-article';
+
 export const ArticleAnalyticsCard = () => {
+	const { article } = useArticle();
+
 	return (
 		<div className="grid grid-cols-2 gap-2 p-4">
-			<div className="text-neutral caption">Views</div>
-			<input className="text-neutral input" type="number" placeholder="Views" />
+			<div className="caption text-neutral">Views</div>
+			<p className="body-3 text-neutral">{article.views}</p>
 
-			<div className="text-neutral caption">Reactions</div>
-			<input
-				className="text-neutral input"
-				type="number"
-				placeholder="Reactions"
-			/>
+			<p className="caption text-neutral">Reactions</p>
+			<p className="body-3 text-neutral">{article.reactions}</p>
 		</div>
 	);
 };

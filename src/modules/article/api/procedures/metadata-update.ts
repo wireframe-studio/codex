@@ -35,6 +35,7 @@ export const metadataUpdateProcedure = authedProcedure
 				// author: metadata.author,
 				type: metadata.type,
 				title: metadata.title,
+				slug: metadata.slug,
 				description: metadata.description
 			}
 		});

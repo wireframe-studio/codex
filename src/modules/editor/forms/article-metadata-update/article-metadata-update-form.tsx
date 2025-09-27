@@ -37,6 +37,14 @@ export const ArticleMetadataUpdateForm = () => {
 				{...form.register('description')}
 			/>
 
+			<div className="text-neutral caption">Slug</div>
+			<Input
+				className="text-neutral input"
+				type="text"
+				placeholder="Slug"
+				{...form.register('slug')}
+			/>
+
 			<div className="text-neutral caption">Date</div>
 			<DatePicker
 				value={transformDate(form.watch('date')) ?? undefined}

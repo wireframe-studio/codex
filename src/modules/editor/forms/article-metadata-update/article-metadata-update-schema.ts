@@ -4,6 +4,7 @@ import { ArticleType } from '@prisma/client';
 
 export const articleMetadataUpdateSchema = z.object({
 	title: z.string().optional(),
+	slug: z.string().optional(),
 	description: z.string().nullable().optional(),
 	date: z.date().nullable().optional(),
 	// author: z.string().optional(),

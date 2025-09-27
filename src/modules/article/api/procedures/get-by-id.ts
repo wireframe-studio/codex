@@ -25,6 +25,7 @@ export const getByIdProcedure = publicProcedure
 			createdAt: articleRaw.createdAt,
 			updatedAt: articleRaw.updatedAt,
 			title: articleRaw.title,
+			slug: articleRaw.slug,
 			description: articleRaw.description,
 			date: articleRaw.date,
 			tags: articleRaw.tags,
@@ -32,7 +33,9 @@ export const getByIdProcedure = publicProcedure
 			companyVisibility: articleRaw.companyVisibility,
 			published: articleRaw.published,
 			views: articleRaw.views,
-			reactions: articleRaw.reactions
+			reactions: articleRaw.reactions,
+			coverImageId: articleRaw.coverImageId,
+			backgroundImageId: articleRaw.backgroundImageId
 		};
 
 		return article;

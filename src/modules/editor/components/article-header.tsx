@@ -2,7 +2,8 @@
 
 import { Button } from '@/deps/shadcn/ui/button';
 import { useArticle } from '@/modules/article/contexts/use-article';
-import { useState } from 'react';
+import { useLocalStorage } from '@/utils/use-local-storage';
+import { ArticleImagesForm } from '../forms/article-images-form';
 import { ArticleMetadataUpdateForm } from '../forms/article-metadata-update/article-metadata-update-form';
 import { ArticleAnalyticsCard } from './article-analytics';
 
@@ -10,8 +11,15 @@ export const ArticleHeader = () => {
 	const { articleId, article } = useArticle();
 
 	// collapsing
-	const [showMetadata, setShowMetadata] = useState(true);
-	const [showAnalytics, setShowAnalytics] = useState(false);
+	const [showImages, setShowImages] = useLocalStorage('show-images', false);
+	const [showMetadata, setShowMetadata] = useLocalStorage(
+		'show-metadata',
+		true
+	);
+	const [showAnalytics, setShowAnalytics] = useLocalStorage(
+		'show-analytics',
+		false
+	);
 
 	const ArticleInfo = () => {
 		return (
@@ -23,6 +31,11 @@ export const ArticleHeader = () => {
 				</div>
 
 				<div className="flex flex-row gap-2">
+					<Button
+						variant={showImages ? 'solid' : 'solid-weak'}
+						singleIcon="image"
+						onClick={() => setShowImages((showImages) => !showImages)}
+					/>
 					<Button
 						variant={showMetadata ? 'solid' : 'solid-weak'}
 						singleIcon="edit"
@@ -42,13 +55,19 @@ export const ArticleHeader = () => {
 		<div className="flex flex-col gap-1">
 			<ArticleInfo />
 
+			{showImages && articleId && (
+				<div className="p-4 bg-section rounded-lg mx-6">
+					<ArticleImagesForm />
+				</div>
+			)}
+
 			{showMetadata && articleId && (
 				<div className="p-4 bg-section rounded-lg mx-6">
 					<ArticleMetadataUpdateForm />
 				</div>
 			)}
 
-			{showAnalytics && (
+			{showAnalytics && articleId && (
 				<div className="p-4 bg-section rounded-lg mx-6">
 					<ArticleAnalyticsCard />
 				</div>

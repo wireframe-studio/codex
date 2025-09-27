@@ -21,6 +21,7 @@ export const listProcedure = publicProcedure
 				createdAt: articleRaw.createdAt,
 				updatedAt: articleRaw.updatedAt,
 				title: articleRaw.title,
+				slug: articleRaw.slug,
 				description: articleRaw.description,
 				date: articleRaw.date,
 				tags: articleRaw.tags,

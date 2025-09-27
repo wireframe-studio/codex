@@ -1,7 +1,6 @@
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["relationJoins"]
-  output          = "./generated"
 }
 
 datasource db {
@@ -17,7 +16,14 @@ model Article {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  coverImageId String?   @unique
+  CoverImage   S3Object? @relation(fields: [coverImageId], references: [id], name: "ArticleToCoverImage")
+
+  backgroundImageId String?   @unique
+  BackgroundImage   S3Object? @relation(fields: [backgroundImageId], references: [id], name: "ArticleToBackgroundImage")
+
   title       String       @default("New Article")
+  slug        String?      @unique
   description String?
   date        DateTime?    @default(now())
   // author String?
@@ -52,6 +58,9 @@ model S3Object {
   updatedAt DateTime @updatedAt
 
   Articles Article[] @relation("ArticleToFile")
+
+  ArticleCoverImage      Article? @relation("ArticleToCoverImage")
+  ArticleBackgroundImage Article? @relation("ArticleToBackgroundImage")
 }
 
 // ------------------

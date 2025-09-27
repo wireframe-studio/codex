@@ -41,7 +41,8 @@ export const useArticleMetadataForm = () => {
 				date: article.data.date,
 				type: article.data.type,
 				companyVisibility: article.data.companyVisibility,
-				published: article.data.published
+				published: article.data.published,
+				slug: article.data.slug
 			});
 
 			const localValues = {
@@ -50,7 +51,8 @@ export const useArticleMetadataForm = () => {
 				date: form.getValues().date,
 				type: form.getValues().type,
 				companyVisibility: form.getValues().companyVisibility,
-				published: form.getValues().published
+				published: form.getValues().published,
+				slug: form.getValues().slug
 			};
 			const localHash = calculateHash(localValues);
 
@@ -61,7 +63,8 @@ export const useArticleMetadataForm = () => {
 					date: article.data.date,
 					type: article.data.type ?? undefined,
 					companyVisibility: article.data.companyVisibility,
-					published: article.data.published
+					published: article.data.published,
+					slug: article.data.slug ?? undefined
 				});
 			}
 		}
@@ -77,7 +80,8 @@ export const useArticleMetadataForm = () => {
 				date: data.date,
 				type: data.type,
 				published: data.published,
-				description: data.description
+				description: data.description,
+				slug: data.slug
 			}
 		});
 

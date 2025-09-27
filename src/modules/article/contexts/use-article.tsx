@@ -2,12 +2,12 @@
 
 import { api } from '@/deps/trpc/react';
 import { Spinner } from '@/global/components/spinner';
-import { Article } from '@prisma/client';
-import { createContext, ReactNode, useContext } from 'react';
+import { createContext, type ReactNode, useContext } from 'react';
+import { type ArticleGetItem } from '../api/procedures/get-by-id';
 
 interface ArticleContextType {
 	articleId: string;
-	article: Article;
+	article: ArticleGetItem;
 }
 
 const ArticleContext = createContext<ArticleContextType | undefined>(undefined);
