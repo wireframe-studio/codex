@@ -30,9 +30,6 @@ export const useArticleContentForm = (articleId: string) => {
 					'rounded-lg border border-neutral-medium outline-none flex flex-col gap-2 p-6'
 			}
 		},
-		onContentError({ error }) {
-			console.error('onContentError', error);
-		},
 		onBlur: () => {},
 		onUpdate({ editor }) {
 			setContentKey((prev) => prev + 1);

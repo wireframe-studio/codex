@@ -17,6 +17,9 @@ import { Text } from '@tiptap/extension-text';
 import { TrailingNode } from '@tiptap/extensions/trailing-node';
 
 import { type Extensions } from '@tiptap/react';
+import embed from './extensions/embed/embed';
+import image from './extensions/image/image';
+import video from './extensions/video/video';
 import zigzagGroup from './extensions/zigzag/zigzag-group';
 import zigzagItem from './extensions/zigzag/zigzag-item';
 
@@ -72,5 +75,8 @@ export const extensions: Extensions = [
 	...baseExtensions,
 	zigzagGroup.extension,
 	zigzagItem.extension,
+	video.extension,
+	embed.extension,
+	image.extension,
 	History
 ];

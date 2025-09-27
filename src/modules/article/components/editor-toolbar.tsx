@@ -7,6 +7,9 @@ import { Badge } from '@/deps/shadcn/ui/badge';
 import { Button } from '@/deps/shadcn/ui/button';
 import { Spinner } from '@/global/components/spinner';
 
+import embed from '@/deps/tiptap/extensions/embed/embed';
+import image from '@/deps/tiptap/extensions/image/image';
+import video from '@/deps/tiptap/extensions/video/video';
 import zigzagGroup from '@/deps/tiptap/extensions/zigzag/zigzag-group';
 import zigzagItem from '@/deps/tiptap/extensions/zigzag/zigzag-item';
 
@@ -143,7 +146,7 @@ export const EditorToolbar = ({
 							size="xs"
 							theme="neutral"
 							variant="ghost"
-							singleIcon="images"
+							singleIcon="layout-mosaic"
 							disabled={locked}
 							onClick={() => {
 								editor
@@ -157,6 +160,69 @@ export const EditorToolbar = ({
 												attrs: zigzagItem.defaultAttributes
 											}
 										]
+									})
+									.insertContent({
+										type: 'paragraph',
+										content: []
+									})
+									.run();
+							}}
+						/>
+
+						<Button
+							size="xs"
+							theme="neutral"
+							variant="ghost"
+							singleIcon="bell"
+							disabled={locked}
+							onClick={() => {
+								editor
+									.chain()
+									.focus()
+									.insertContent({
+										type: video.name
+									})
+									.insertContent({
+										type: 'paragraph',
+										content: []
+									})
+									.run();
+							}}
+						/>
+
+						<Button
+							size="xs"
+							theme="neutral"
+							variant="ghost"
+							singleIcon="link"
+							disabled={locked}
+							onClick={() => {
+								editor
+									.chain()
+									.focus()
+									.insertContent({
+										type: embed.name
+									})
+									.insertContent({
+										type: 'paragraph',
+										content: []
+									})
+									.run();
+							}}
+						/>
+
+						<Button
+							size="xs"
+							theme="neutral"
+							variant="ghost"
+							singleIcon="image"
+							disabled={locked}
+							onClick={() => {
+								editor
+									.chain()
+									.focus()
+									.insertContent({
+										type: image.name
 									})
 									.insertContent({
 										type: 'paragraph',

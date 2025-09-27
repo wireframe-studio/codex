@@ -1,7 +1,6 @@
 'use client';
 
 import {
-	mergeAttributes,
 	Node,
 	NodeViewContent,
 	NodeViewWrapper,
@@ -11,14 +10,13 @@ import {
 
 import { Button } from '@/deps/shadcn/ui/button';
 import { cn } from '@/deps/shadcn/utils';
-import { type IconName } from '@/global/components/icon';
 
+import { defaultSerialization } from '../../utils/default-serialization';
 import zigzagItem from './zigzag-item';
 
 // ---
 
 const nodeName = 'zigzagGroup';
-const nodeIcon: IconName = 'layout-mosaic';
 
 const defaultAttributes = {};
 
@@ -35,20 +33,7 @@ const nodeOptions = {
 
 const extension = Node.create({
 	...nodeOptions,
-
-	// HTML -> attrs
-	parseHTML() {
-		return [{ tag: `div[data-type="${nodeName}"]` }];
-	},
-
-	// attrs -> HTML
-	renderHTML({ HTMLAttributes }) {
-		return [
-			'div',
-			mergeAttributes(HTMLAttributes, { 'data-type': nodeName }),
-			0
-		];
-	},
+	...defaultSerialization(nodeName, defaultAttributes),
 
 	// react view
 	addNodeView() {
