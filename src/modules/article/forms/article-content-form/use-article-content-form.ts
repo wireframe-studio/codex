@@ -3,7 +3,7 @@
 import { type JSONContent, useEditor } from '@tiptap/react';
 import { useEffect, useState } from 'react';
 
-import { tiptapExtensionsEditable } from '@/deps/tiptap/extensions';
+import { extensions } from '@/deps/tiptap/extensions';
 import { api } from '@/deps/trpc/react';
 import { useDebouncedEffect } from '@/global/hooks/use-debounced-effect';
 
@@ -22,7 +22,7 @@ export const useArticleContentForm = (articleId: string) => {
 
 	const editor = useEditor({
 		// immediatelyRender: true,
-		extensions: tiptapExtensionsEditable,
+		extensions: extensions,
 		// editable: remoteArticle.isLoading,
 		editorProps: {
 			attributes: {

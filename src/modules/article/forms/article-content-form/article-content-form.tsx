@@ -5,7 +5,7 @@ import { EditorContent } from '@tiptap/react';
 
 import { Button } from '@/deps/shadcn/ui/button';
 import { Spinner } from '@/global/components/spinner';
-import { EditorToolbar } from '../../components/editor/editor-toolbar';
+import { EditorToolbar } from '../../components/editor-toolbar';
 import { ArticleProvider, useArticle } from '../../contexts/use-article';
 import { useArticleContentForm } from './use-article-content-form';
 

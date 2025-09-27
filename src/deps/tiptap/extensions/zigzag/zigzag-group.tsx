@@ -22,16 +22,19 @@ const nodeIcon: IconName = 'layout-mosaic';
 
 const defaultAttributes = {};
 
-// ---
-
-const extension = Node.create({
+const nodeOptions = {
 	name: nodeName,
 
 	group: 'block',
 	content: `${zigzagItem.name}+`,
 
 	selectable: true,
-	draggable: true,
+	draggable: true
+};
+// ---
+
+const extension = Node.create({
+	...nodeOptions,
 
 	// HTML -> attrs
 	parseHTML() {
@@ -98,7 +101,7 @@ const extension = Node.create({
 
 export default {
 	name: nodeName,
-	icon: nodeIcon,
 	defaultAttributes: defaultAttributes,
+	nodeOptions: nodeOptions,
 	extension: extension
 };

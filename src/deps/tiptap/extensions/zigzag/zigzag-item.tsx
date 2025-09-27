@@ -10,9 +10,9 @@ import {
 
 import { Button } from '@/deps/shadcn/ui/button';
 import { cn } from '@/deps/shadcn/utils';
-import { api } from '@/deps/trpc/react';
-import { useUploadDialog } from '@/modules/file/hooks/use-upload-dialog';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
+import { useNodePosition } from '../../hooks/use-node-position';
+import { useUploadFile } from '../../hooks/use-upload-file';
 
 // ---
 
@@ -25,9 +25,7 @@ const defaultAttributes = {
 	align: 'left' as 'left' | 'right'
 };
 
-// ---
-
-const extension = Node.create({
+const nodeOptions = {
 	name: nodeName,
 
 	group: 'block',
@@ -35,7 +33,13 @@ const extension = Node.create({
 	atom: true,
 
 	selectable: true,
-	draggable: true,
+	draggable: true
+};
+
+// ---
+
+const extension = Node.create({
+	...nodeOptions,
 
 	// default attrs
 	addAttributes() {
@@ -93,57 +97,27 @@ const extension = Node.create({
 	addNodeView() {
 		return ReactNodeViewRenderer(
 			({ editor, node, updateAttributes, deleteNode, selected, getPos }) => {
-				const { imageId, align, text, imageUrl } =
-					node.attrs as typeof defaultAttributes;
+				const { imageId, align, text } = node.attrs as typeof defaultAttributes;
 
-				const pos = getPos();
-				const resolvedPos = editor.state.doc.resolve(pos);
-				const currentIndex = resolvedPos.index();
-				const parent = resolvedPos.parent;
-				const isFirst = currentIndex === 0;
-				const isLast = currentIndex === parent.childCount - 1;
+				const { moveUp, moveDown } = useNodePosition({
+					getPos,
+					editor,
+					deleteNode,
+					node
+				});
 
-				const makeContentUploadUrl =
-					api.file.makeContentUploadUrl.useMutation();
-				const registerFile = api.file.registerFile.useMutation();
-				const deleteFile = api.file.deleteFileById.useMutation();
-
-				const downloadUrl = api.file.getFileDownloadUrl.useQuery(
-					{ fileId: imageId },
-					{ enabled: !!imageId }
-				);
-
-				const hasFile = !!imageId;
-
-				const { openUploadDialog } = useUploadDialog();
-
-				const [isLoading, setIsLoading] = useState(false);
+				const image = useUploadFile(imageId);
 
 				const handleUpload = () => {
-					openUploadDialog(async (files) => {
-						const file = files[0];
-						setIsLoading(true);
-						const { url, key } = await makeContentUploadUrl.mutateAsync();
-						await fetch(url, {
-							method: 'PUT',
-							body: file,
-							headers: { 'Content-Type': file.type }
-						});
-						const { file: remoteFile } = await registerFile.mutateAsync({
-							key,
-							contentType: file.type,
-							size: file.size
-						});
-						updateAttributes({ imageId: remoteFile.id });
-						setIsLoading(false);
+					image.upload((fileId, fileKey, fileUrl) => {
+						updateAttributes({ imageId: fileId });
 					});
 				};
 
-				const handleRemoveImage = async () => {
-					setIsLoading(true);
-					await deleteFile.mutateAsync({ fileId: imageId });
-					setIsLoading(false);
-					updateAttributes({ imageId: '', imageUrl: '' });
+				const handleRemoveImage = () => {
+					image.remove(() => {
+						updateAttributes({ imageId: '', imageUrl: '' });
+					});
 				};
 
 				const textRef = useRef<HTMLDivElement>(null);
@@ -152,28 +126,6 @@ const extension = Node.create({
 						textRef.current.textContent = text;
 					}
 				}, []);
-
-				const handleMoveUp = () => {
-					if (isFirst) return;
-
-					editor
-						.chain()
-						.focus()
-						.insertContentAt(pos - 1, node)
-						.run();
-					deleteNode();
-				};
-
-				const handleMoveDown = () => {
-					if (isLast) return;
-
-					editor
-						.chain()
-						.focus()
-						.insertContentAt(pos + 2, node)
-						.run();
-					deleteNode();
-				};
 
 				const handleSwitchSide = () => {
 					updateAttributes({ align: align === 'left' ? 'right' : 'left' });
@@ -196,31 +148,31 @@ const extension = Node.create({
 							)}>
 							<div className="flex-1 shrink-0">
 								<div className="aspect-square bg-neutral-weak rounded-xl relative overflow-hidden">
-									{downloadUrl.data && (
+									{image.file.url && (
 										<img
-											src={downloadUrl.data}
+											src={image.file.url}
 											alt={imageId}
 											className="object-cover w-full h-full"
 										/>
 									)}
 
 									<div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-										{hasFile && (
+										{image.file.id && (
 											<Button
 												variant="solid-weak"
 												size="sm"
 												singleIcon="close"
-												loading={isLoading}
+												loading={image.isLoading}
 												onClick={handleRemoveImage}
 											/>
 										)}
 
-										{!hasFile && (
+										{!image.file.id && (
 											<Button
 												variant="solid-weak"
 												size="sm"
 												singleIcon="upload"
-												loading={isLoading}
+												loading={image.isLoading}
 												onClick={handleUpload}
 											/>
 										)}
@@ -246,7 +198,7 @@ const extension = Node.create({
 									variant="solid-weak"
 									size="sm"
 									singleIcon="chevron-up"
-									onClick={handleMoveUp}
+									onClick={moveUp}
 								/>
 							</div>
 
@@ -256,7 +208,7 @@ const extension = Node.create({
 									variant="solid-weak"
 									size="sm"
 									singleIcon="chevron-down"
-									onClick={handleMoveDown}
+									onClick={moveDown}
 								/>
 							</div>
 
@@ -292,5 +244,6 @@ const extension = Node.create({
 export default {
 	name: nodeName,
 	defaultAttributes: defaultAttributes,
+	nodeOptions: nodeOptions,
 	extension: extension
 };

@@ -1,13 +1,15 @@
+import { z } from 'zod';
+
 import { publicProcedure } from '@/deps/trpc/procedures';
 import { hydrateImageUrls } from '@/modules/access/utils/hydrate-image-urls';
 import { TRPCError } from '@trpc/server';
 
 export const getByIdProcedure = publicProcedure
-	// .input(
-	// 	z.object({
-	// 		articleId: z.string()
-	// 	})
-	// )
+	.input(
+		z.object({
+			articleId: z.string()
+		})
+	)
 	.query(async ({ ctx, input }) => {
 		const { db } = ctx;
 		// const { articleId } = input;
