@@ -2,6 +2,7 @@ import { z } from 'zod';
 
 import { publicProcedure } from '@/deps/trpc/procedures';
 import { hydrateImageUrls } from '@/modules/access/utils/hydrate-image-urls';
+import { getFileDownloadUrl } from '@/modules/file/helpers/get-download-url';
 import { TRPCError } from '@trpc/server';
 
 export const getByIdProcedure = publicProcedure
@@ -15,7 +16,19 @@ export const getByIdProcedure = publicProcedure
 		const { articleId } = input;
 
 		const articleRaw = await db.article.findUnique({
-			where: { id: articleId }
+			where: { id: articleId },
+			include: {
+				CoverImage: {
+					select: {
+						key: true
+					}
+				},
+				BackgroundImage: {
+					select: {
+						key: true
+					}
+				}
+			}
 		});
 
 		if (!articleRaw) {
@@ -45,7 +58,13 @@ export const getByIdProcedure = publicProcedure
 			published: articleRaw.published,
 			views: articleRaw.views + 1,
 			reactions: articleRaw.reactions,
-			content: hydratedContent
+			content: hydratedContent,
+			coverUrl: articleRaw.CoverImage
+				? await getFileDownloadUrl(articleRaw.CoverImage.key)
+				: null,
+			backgroundUrl: articleRaw.BackgroundImage
+				? await getFileDownloadUrl(articleRaw.BackgroundImage.key)
+				: null
 		};
 
 		return article;
