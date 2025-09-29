@@ -12,8 +12,7 @@ export const getByIdProcedure = publicProcedure
 	)
 	.query(async ({ ctx, input }) => {
 		const { db } = ctx;
-		// const { articleId } = input;
-		const articleId = 'cmfbbfbi00002uu0sq12a0n0d';
+		const { articleId } = input;
 
 		const articleRaw = await db.article.findUnique({
 			where: { id: articleId }

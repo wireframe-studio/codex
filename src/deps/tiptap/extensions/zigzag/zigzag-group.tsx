@@ -29,6 +29,7 @@ const nodeOptions = {
 	selectable: true,
 	draggable: true
 };
+
 // ---
 
 const extension = Node.create({
