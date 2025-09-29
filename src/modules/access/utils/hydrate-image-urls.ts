@@ -1,9 +1,16 @@
 import { db } from '@/deps/db';
 import { getFileDownloadUrl } from '@/modules/file/helpers/get-download-url';
 
-interface AttrsWithImage {
-	imageId?: string;
-	imageUrl?: string;
+const pairsToHydrate = [
+	['imageId', 'imageUrl'],
+	['backgroundImageId', 'backgroundUrl'],
+	['coverImageId', 'coverUrl'],
+	['fileId', 'fileUrl'],
+	['videoId', 'videoUrl'],
+	['thumbnailId', 'thumbnailUrl']
+];
+
+interface AttrsWithHydratableFields {
 	[key: string]: unknown;
 }
 
@@ -21,35 +28,42 @@ export const hydrateImageUrls = async (content: unknown): Promise<unknown> => {
 
 		for (const [key, value] of Object.entries(content)) {
 			if (key === 'attrs' && value && typeof value === 'object') {
-				// Handle attrs object specifically for imageId/imageUrl pairs
-				const attrs = value as AttrsWithImage;
+				// Handle attrs object for all hydratable pairs
+				const attrs = value as AttrsWithHydratableFields;
 				result[key] = { ...attrs };
 
-				// If imageId exists and imageUrl is empty, hydrate it
-				if (attrs.imageId && !attrs.imageUrl) {
-					try {
-						const fileKey = await db.s3Object.findUnique({
-							where: { id: attrs.imageId }
-						});
+				// Process all pairs to hydrate
+				for (const [idField, urlField] of pairsToHydrate) {
+					const idValue = attrs[idField] as string | undefined;
+					const urlValue = attrs[urlField] as string | undefined;
 
-						if (!fileKey) {
-							throw new Error('File not found');
+					// If ID exists and URL is empty, hydrate it
+					if (idValue && !urlValue) {
+						try {
+							const fileKey = await db.s3Object.findUnique({
+								where: { id: idValue }
+							});
+
+							if (!fileKey) {
+								throw new Error('File not found');
+							}
+
+							const downloadUrl = await getFileDownloadUrl(fileKey.key);
+							(result[key] as AttrsWithHydratableFields)[urlField] =
+								downloadUrl;
+
+							console.log('key', key);
+							console.log('value', value);
+							console.log(`${urlField}`, downloadUrl);
+							console.log();
+						} catch (error) {
+							console.warn(
+								`Failed to get download URL for ${idField}: ${idValue}`,
+								error
+							);
+							// Keep the empty URL if download fails
+							(result[key] as AttrsWithHydratableFields)[urlField] = '';
 						}
-
-						const imageUrl = await getFileDownloadUrl(fileKey.key);
-						(result[key] as AttrsWithImage).imageUrl = imageUrl;
-
-						console.log('key', key);
-						console.log('value', value);
-						console.log('imageUrl', imageUrl);
-						console.log();
-					} catch (error) {
-						console.warn(
-							`Failed to get download URL for imageId: ${attrs.imageId}`,
-							error
-						);
-						// Keep the empty imageUrl if download fails
-						(result[key] as AttrsWithImage).imageUrl = '';
 					}
 				}
 			} else {
