@@ -33,6 +33,7 @@ export const metadataUpdateProcedure = authedProcedure
 				published: metadata.published,
 				date: metadata.date,
 				// author: metadata.author,
+				tags: metadata.tags,
 				type: metadata.type,
 				title: metadata.title,
 				slug: metadata.slug,

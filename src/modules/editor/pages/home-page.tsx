@@ -14,18 +14,25 @@ import {
 	Labels,
 	List
 } from '@/global/components/list';
+import { CreateArticleButton } from '@/modules/article/components/create-article-button';
 
 export const HomePage = async () => {
 	const articlesQuery = await api.article.list();
 
 	return (
-		<div className="flex flex-col items-center py-20 w-full text-neutral">
-			<section className="flex flex-col gap-10 w-full container-md px-6">
+		<div className="flex flex-col gap-10 items-center py-20 w-full text-neutral">
+			<div className="flex flex-row justify-between gap-10 w-full container-md px-6">
+				<h1 className="title-1 text-neutral">Articles</h1>
+				<CreateArticleButton />
+			</div>
+
+			<div className="w-full container-md px-6">
 				<List>
-					<p className="title-2 text-neutral">Unpublished</p>
+					<p className="title-3 text-neutral">Unpublished</p>
 					<Labels>
 						<Label>Title</Label>
-						<Label>Prezime</Label>
+						<Label>Type</Label>
+						<Label>Date</Label>
 						<ActionsLabel />
 					</Labels>
 					<Items>
@@ -54,12 +61,15 @@ export const HomePage = async () => {
 							})}
 					</Items>
 				</List>
+			</div>
 
+			<div className="w-full container-md px-6">
 				<List>
-					<p className="title-2 text-neutral">Published</p>
+					<p className="title-3 text-neutral">Published</p>
 					<Labels>
 						<Label>Title</Label>
-						<Label>Prezime</Label>
+						<Label>Type</Label>
+						<Label>Date</Label>
 						<ActionsLabel />
 					</Labels>
 					<Items>
@@ -88,7 +98,7 @@ export const HomePage = async () => {
 							})}
 					</Items>
 				</List>
-			</section>
+			</div>
 		</div>
 	);
 };

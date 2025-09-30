@@ -21,6 +21,12 @@
 	@apply body-1 w-full container-sm text-neutral-strong px-6;
 }
 
+/* marks */
+
+.element-paragraph > strong {
+	@apply text-neutral;
+}
+
 /* list */
 .tiptap-editor > .tiptap ul {
 	@apply list-disc w-full container-sm px-8;

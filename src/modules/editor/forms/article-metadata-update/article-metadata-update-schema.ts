@@ -8,7 +8,7 @@ export const articleMetadataUpdateSchema = z.object({
 	description: z.string().nullable().optional(),
 	date: z.date().nullable().optional(),
 	// author: z.string().optional(),
-	tags: z.array(z.string()).optional(),
+	tags: z.array(z.string()),
 	type: z.nativeEnum(ArticleType).optional(),
 	companyVisibility: z.boolean().optional(),
 	published: z.boolean().optional()

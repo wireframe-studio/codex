@@ -1,7 +1,9 @@
 'use client';
 
+import { Button } from '@/deps/shadcn/ui/button';
 import { DatePicker } from '@/deps/shadcn/ui/date-picker';
 import { Input } from '@/deps/shadcn/ui/input';
+import { useRef, useState } from 'react';
 import { useArticleMetadataForm } from './use-article-metadata-update-form';
 
 const transformDate = (date: Date | null | undefined) => {
@@ -16,6 +18,14 @@ const transformDate = (date: Date | null | undefined) => {
 
 export const ArticleMetadataUpdateForm = () => {
 	const { form } = useArticleMetadataForm();
+
+	const [tagInput, setTagInput] = useState('');
+	const tagInputRef = useRef<HTMLInputElement>(null);
+	const handleTagsClick = () => {
+		if (tagInputRef.current) {
+			tagInputRef.current.focus();
+		}
+	};
 
 	return (
 		<form
@@ -44,6 +54,63 @@ export const ArticleMetadataUpdateForm = () => {
 				placeholder="Slug"
 				{...form.register('slug')}
 			/>
+
+			<div className="text-neutral caption">Tags</div>
+			{/* <Input
+				className="text-neutral input"
+				type="text"
+				placeholder="Tags"
+				{...form.register('tags')}
+				value={form.watch('tags')?.join(',')}
+				onChange={(e) => {
+					form.setValue('tags', e.target.value.split(','), {
+						shouldDirty: true
+					});
+				}}
+			/> */}
+			<div
+				className="flex flex-wrap flex-row gap-1 p-2 border border-neutral-medium rounded-lg"
+				onClick={handleTagsClick}>
+				{form.watch('tags')?.map((tag, index) => (
+					<Button
+						key={index}
+						className="text-neutral caption"
+						variant="solid-weak"
+						size="xs"
+						rightIcon="close"
+						type="button"
+						onClick={() =>
+							form.setValue(
+								'tags',
+								form.watch('tags')?.filter((_, i) => i !== index)
+							)
+						}>
+						{tag}
+					</Button>
+				))}
+
+				<input
+					ref={tagInputRef}
+					className="text-neutral button-sm w-fit min-w-0 ml-1 outline-none"
+					type="text"
+					placeholder="Tags"
+					onChange={(e) => setTagInput(e.target.value)}
+					value={tagInput}
+					onKeyDown={(e) => {
+						if (e.key === 'Enter') {
+							e.preventDefault();
+							const newTag = tagInput.trim();
+							if (newTag) {
+								const currentTags = form.getValues('tags') || [];
+								form.setValue('tags', [...currentTags, newTag], {
+									shouldDirty: true
+								});
+								setTagInput('');
+							}
+						}
+					}}
+				/>
+			</div>
 
 			<div className="text-neutral caption">Date</div>
 			<DatePicker

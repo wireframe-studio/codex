@@ -3,20 +3,22 @@ import { debounce } from '@/global/utils/debounced-callback';
 import { useArticle } from '@/modules/article/contexts/use-article';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createHash } from 'crypto';
-import { useEffect } from 'react';
-import { SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form';
+import { useEffect, useRef } from 'react';
+import type { SubmitErrorHandler, SubmitHandler } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import {
 	articleMetadataUpdateSchema,
-	TArticleMetadataUpdateSchema
+	type TArticleMetadataUpdateSchema
 } from './article-metadata-update-schema';
 
 // create a hash based on arbitrary data
-const calculateHash = (data: any) => {
+const calculateHash = (data: unknown) => {
 	return createHash('sha256').update(JSON.stringify(data)).digest('hex');
 };
 
 export const useArticleMetadataForm = () => {
 	const { articleId } = useArticle();
+	const isUpdatingFromSubmission = useRef(false);
 
 	// APIs
 	const article = api.article.get.useQuery(
@@ -29,14 +31,17 @@ export const useArticleMetadataForm = () => {
 	// React Hook Form
 	const form = useForm<TArticleMetadataUpdateSchema>({
 		resolver: zodResolver(articleMetadataUpdateSchema),
-		defaultValues: {}
+		defaultValues: {
+			tags: []
+		}
 	});
 
 	// Remote metadata
 	useEffect(() => {
-		if (article.data) {
+		if (article.data && !isUpdatingFromSubmission.current) {
 			const remoteHash = calculateHash({
 				title: article.data.title,
+				tags: article.data.tags,
 				description: article.data.description,
 				date: article.data.date,
 				type: article.data.type,
@@ -47,6 +52,7 @@ export const useArticleMetadataForm = () => {
 
 			const localValues = {
 				title: form.getValues().title,
+				tags: form.getValues().tags,
 				description: form.getValues().description,
 				date: form.getValues().date,
 				type: form.getValues().type,
@@ -59,6 +65,7 @@ export const useArticleMetadataForm = () => {
 			if (remoteHash !== localHash) {
 				form.reset({
 					title: article.data.title,
+					tags: article.data.tags || [],
 					description: article.data.description,
 					date: article.data.date,
 					type: article.data.type ?? undefined,
@@ -72,10 +79,13 @@ export const useArticleMetadataForm = () => {
 
 	// Form submission
 	const onValid: SubmitHandler<TArticleMetadataUpdateSchema> = async (data) => {
+		isUpdatingFromSubmission.current = true;
+
 		const updatedArticle = await updateMetadata.mutateAsync({
 			articleId: articleId,
 			metadata: {
 				title: data.title,
+				tags: data.tags,
 				companyVisibility: data.companyVisibility,
 				date: data.date,
 				type: data.type,
@@ -85,6 +95,18 @@ export const useArticleMetadataForm = () => {
 			}
 		});
 
+		// Update the form with the response data to prevent reset
+		form.reset({
+			title: updatedArticle.article.title,
+			tags: updatedArticle.article.tags || [],
+			description: updatedArticle.article.description,
+			date: updatedArticle.article.date,
+			type: updatedArticle.article.type ?? undefined,
+			companyVisibility: updatedArticle.article.companyVisibility,
+			published: updatedArticle.article.published,
+			slug: updatedArticle.article.slug ?? undefined
+		});
+
 		// utils.article.get.invalidate({ articleId: articleId! });
 		utils.article.get.setData({ articleId: articleId }, (prev) => ({
 			prev,
@@ -92,6 +114,11 @@ export const useArticleMetadataForm = () => {
 		}));
 
 		utils.article.list.invalidate();
+
+		// Reset the flag after a short delay
+		setTimeout(() => {
+			isUpdatingFromSubmission.current = false;
+		}, 100);
 	};
 
 	const onInvalid: SubmitErrorHandler<TArticleMetadataUpdateSchema> = (
@@ -110,7 +137,7 @@ export const useArticleMetadataForm = () => {
 				values: true,
 				isDirty: true
 			},
-			callback: ({ values, isDirty }) => {
+			callback: ({ isDirty }) => {
 				if (!isDirty) return;
 				debouncedSubmit();
 			}

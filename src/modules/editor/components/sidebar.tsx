@@ -43,7 +43,7 @@ export const Sidebar = () => {
 
 	// Expanded view
 	return (
-		<div className="flex flex-col gap-4 self-stretch shrink-0 w-[240px] m-2 border rounded-xl border-neutral-medium bg-section">
+		<div className="flex flex-col gap-4 self-stretch shrink-0 w-[240px] m-2 border rounded-xl border-neutral-weak bg-section">
 			{/* Header */}
 			<div className="flex flex-row justify-between items-center px-4 py-4">
 				<h1 className="title-2 text-neutral">Codex</h1>
