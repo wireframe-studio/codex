@@ -3,6 +3,7 @@
 import { Bold } from '@tiptap/extension-bold';
 import { BulletList } from '@tiptap/extension-bullet-list';
 import { Document } from '@tiptap/extension-document';
+import { Dropcursor } from '@tiptap/extension-dropcursor';
 import { Heading } from '@tiptap/extension-heading';
 import { History } from '@tiptap/extension-history';
 import { Italic } from '@tiptap/extension-italic';
@@ -19,6 +20,8 @@ import { TrailingNode } from '@tiptap/extensions/trailing-node';
 import { type Extensions } from '@tiptap/react';
 import embed from './extensions/embed/embed';
 import image from './extensions/image/image';
+import topicGroup from './extensions/topic/topic-group';
+import topicItem from './extensions/topic/topic-item';
 import video from './extensions/video/video';
 import zigzagGroup from './extensions/zigzag/zigzag-group';
 import zigzagItem from './extensions/zigzag/zigzag-item';
@@ -67,7 +70,9 @@ const baseExtensions: Extensions = [
 			class: 'element-ordered-list'
 		}
 	}),
-	// Dropcursor,
+	Dropcursor.configure({
+		color: '#ffffff80'
+	}),
 	TrailingNode
 ];
 
@@ -75,6 +80,8 @@ export const extensions: Extensions = [
 	...baseExtensions,
 	zigzagGroup.extension,
 	zigzagItem.extension,
+	topicGroup.extension,
+	topicItem.extension,
 	video.extension,
 	embed.extension,
 	image.extension,

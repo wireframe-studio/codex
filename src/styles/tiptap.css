@@ -52,3 +52,41 @@
 .react-renderer {
 	@apply flex flex-col items-center w-full;
 }
+
+/* topic group */
+.topic-grid > div > div[data-node-view-content-react] {
+	@apply grid grid-cols-5 gap-1 min-h-[200px] w-full;
+}
+
+/* index % 4 = 0 */
+.topic-grid .node-topicItem:nth-child(4n + 1) {
+	@apply col-span-2;
+}
+
+/* index % 4 = 1 */
+.topic-grid .node-topicItem:nth-child(4n + 2) {
+	@apply col-span-3;
+}
+
+/* index % 4 = 2 */
+.topic-grid .node-topicItem:nth-child(4n + 3) {
+	@apply col-span-3;
+}
+
+/* index % 4 = 3 */
+.topic-grid .node-topicItem:nth-child(4n + 4) {
+	@apply col-span-2;
+}
+
+/* index % 4 = 3 */
+.topic-grid .node-topicItem:nth-child(2n + 1):last-child {
+	@apply col-span-full;
+}
+
+.topic-grid-two-override > div > div[data-node-view-content-react] {
+	@apply grid-cols-2!;
+}
+
+.topic-grid-two-override .node-topicItem {
+	@apply col-span-1!;
+}

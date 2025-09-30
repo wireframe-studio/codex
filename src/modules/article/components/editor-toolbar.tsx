@@ -9,6 +9,8 @@ import { Spinner } from '@/global/components/spinner';
 
 import embed from '@/deps/tiptap/extensions/embed/embed';
 import image from '@/deps/tiptap/extensions/image/image';
+import topicGroup from '@/deps/tiptap/extensions/topic/topic-group';
+import topicItem from '@/deps/tiptap/extensions/topic/topic-item';
 import video from '@/deps/tiptap/extensions/video/video';
 import zigzagGroup from '@/deps/tiptap/extensions/zigzag/zigzag-group';
 import zigzagItem from '@/deps/tiptap/extensions/zigzag/zigzag-item';
@@ -223,6 +225,33 @@ export const EditorToolbar = ({
 									.focus()
 									.insertContent({
 										type: image.name
+									})
+									.insertContent({
+										type: 'paragraph',
+										content: []
+									})
+									.run();
+							}}
+						/>
+
+						<Button
+							size="xs"
+							theme="neutral"
+							variant="ghost"
+							singleIcon="list-board"
+							disabled={locked}
+							onClick={() => {
+								editor
+									.chain()
+									.focus()
+									.insertContent({
+										type: topicGroup.name,
+										content: [
+											{
+												type: topicItem.name,
+												attrs: topicItem.defaultAttributes
+											}
+										]
 									})
 									.insertContent({
 										type: 'paragraph',
