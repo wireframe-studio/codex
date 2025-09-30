@@ -62,7 +62,7 @@ const extension = Node.create({
 						as="div"
 						data-type={nodeName}
 						className={cn(
-							'border p-4 rounded-lg border-neutral-medium flex flex-col gap-4 items-center w-full',
+							'border p-4 rounded-lg border-neutral-medium flex flex-col gap-4 items-center w-full container-md',
 							selected && 'bg-accent-weak border-accent-medium'
 						)}>
 						<div className="w-full">

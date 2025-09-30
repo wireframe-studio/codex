@@ -1,9 +1,11 @@
+'use client';
+
 import { cn } from '@/deps/shadcn/utils';
 import {
-	CSSProperties,
-	FC,
-	HTMLAttributes,
-	PropsWithChildren,
+	type CSSProperties,
+	type FC,
+	type HTMLAttributes,
+	type PropsWithChildren,
 	useEffect,
 	useRef
 } from 'react';

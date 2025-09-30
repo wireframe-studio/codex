@@ -64,7 +64,7 @@ const extension = Node.create({
 					as="div"
 					data-type={nodeName}
 					className={cn(
-						'border rounded-lg border-neutral-medium flex flex-col items-center w-full overflow-hidden',
+						'border rounded-lg border-neutral-medium flex flex-col items-center w-full overflow-hidden container-md',
 						selected && 'bg-accent-weak border-accent-medium'
 					)}>
 					<input

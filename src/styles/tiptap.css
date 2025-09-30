@@ -1,94 +1,48 @@
 @import 'tailwindcss';
 
-/* TipTap */
-.tiptap .element-code {
-	@apply inline-block bg-neutral-weak p-1 px-2 rounded-md font-mono text-[13px] font-normal leading-[20px] sm:text-[14px] sm:leading-[20px];
+/* top level container */
+.tiptap-editor > div {
+	@apply text-neutral flex flex-col gap-10 items-center outline-none;
 }
 
-/* Paragraph */
-
-.tiptap .element-paragraph {
-	@apply body-2;
+/* headings */
+.tiptap-editor > div > h1.element-heading {
+	@apply display-2 w-full container-sm px-6;
+}
+.tiptap-editor > div > h2.element-heading {
+	@apply display-3 w-full container-sm px-6;
+}
+.tiptap-editor > div > h3.element-heading {
+	@apply title-1 w-full container-sm px-6;
 }
 
-.tiptap-viewer .element-paragraph {
-	@apply container-md px-4;
+/* top level paragraph */
+.tiptap-editor > .tiptap > .element-paragraph {
+	@apply body-1 w-full container-sm text-neutral-strong px-6;
 }
 
-/* Headings */
-
-.tiptap-viewer .element-heading {
-	@apply container-md px-4;
+/* list */
+.tiptap-editor > .tiptap ul {
+	@apply list-disc w-full container-sm px-8;
+	& > .element-list-item {
+		@apply pl-2;
+	}
+}
+.tiptap-editor > .tiptap ol {
+	@apply list-decimal w-full container-sm px-8;
+	& > .element-list-item {
+		@apply pl-2;
+	}
 }
 
-.tiptap h1.element-heading {
-	@apply title-1;
+/* list item */
+.tiptap-editor > .tiptap > ul > li {
+	@apply mb-2 body-2;
 }
-.tiptap-viewer h1.element-heading {
-	@apply display-3;
-}
-
-.tiptap h2.element-heading {
-	@apply title-2;
-}
-.tiptap-viewer h2.element-heading {
-	@apply title-1;
+.tiptap-editor > .tiptap > ol > li {
+	@apply mb-2 body-2;
 }
 
-.tiptap h3.element-heading {
-	@apply title-3;
-}
-.tiptap-viewer h3.element-heading {
-	@apply title-2;
-}
-
-/*  */
-
-.tiptap-viewer ul.element-bullet-list {
-	@apply w-full pl-8 container-md;
-}
-
-.tiptap-viewer ol.element-ordered-list {
-	@apply w-full pl-8 container-md;
-}
-/*  */
-
-.tiptap .element-link {
-	@apply text-accent underline;
-}
-
-.tiptap .element-bullet-list {
-	@apply list-disc list-outside pl-4;
-}
-
-.tiptap .element-ordered-list {
-	@apply list-decimal list-outside pl-4;
-}
-
-.tiptap .element-list-item {
-	@apply body-2;
-}
-.tiptap .element-list-item .element-paragraph {
-	@apply mb-2;
-}
-
-.tiptap-viewer .node-priceList {
-	@apply w-full flex flex-col items-center;
-}
-
-.tiptap-viewer .node-galleryGrid {
-	@apply w-full flex flex-col items-center;
-}
-
-.tiptap-viewer .node-imageText {
-	@apply w-full flex flex-col items-center;
-}
-
-.tiptap-viewer .node-doctorList {
-	@apply w-full flex flex-col items-center;
-}
-
-.tiptap-viewer,
-.tiptap {
-	@apply text-neutral;
+.react-renderer {
+	@apply flex flex-col items-center w-full;
 }

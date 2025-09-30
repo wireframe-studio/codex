@@ -23,13 +23,7 @@ export const useArticleContentForm = (articleId: string) => {
 	const editor = useEditor({
 		// immediatelyRender: true,
 		extensions: extensions,
-		// editable: remoteArticle.isLoading,
-		editorProps: {
-			attributes: {
-				class:
-					'rounded-lg border border-neutral-medium outline-none flex flex-col gap-2 p-6'
-			}
-		},
+		editable: true,
 		onBlur: () => {},
 		onUpdate({ editor }) {
 			setContentKey((prev) => prev + 1);

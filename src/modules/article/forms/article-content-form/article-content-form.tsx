@@ -50,18 +50,24 @@ export const ArticleContentForm = () => {
 		<ArticleProvider articleId={articleId}>
 			<div className="flex flex-col gap-6 w-full">
 				<EditorToolbar editor={editor} isSaving={isSaving} />
+
 				<DragHandle editor={editor}>
 					<Button singleIcon="drag" variant="ghost" size="xs" />
 				</DragHandle>
-				<EditorContent editor={editor} />
-				<pre className="body-3 text-neutral-strong">
+
+				<EditorContent
+					className="outline-none w-full tiptap-editor"
+					editor={editor}
+				/>
+
+				{/* <pre className="body-3 text-neutral-strong">
 					{indentHTML(
 						JSON.stringify(editor.getHTML(), null, 2)
 							.slice(1)
 							.slice(0, -1)
 							.replaceAll('\\"', '"')
 					)}
-				</pre>
+				</pre> */}
 			</div>
 		</ArticleProvider>
 	);

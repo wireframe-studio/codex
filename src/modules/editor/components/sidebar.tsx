@@ -31,7 +31,7 @@ export const Sidebar = () => {
 	// Collapsed view
 	if (!expanded) {
 		return (
-			<div className="m-6">
+			<div className="m-6 absolute top-0 left-0">
 				<Button
 					variant="ghost"
 					onClick={() => setExpanded(!expanded)}
