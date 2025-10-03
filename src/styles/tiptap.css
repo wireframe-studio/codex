@@ -27,6 +27,10 @@
 	@apply text-neutral;
 }
 
+.element-paragraph > a {
+	@apply text-accent;
+}
+
 /* list */
 .tiptap-editor > .tiptap ul {
 	@apply list-disc w-full container-sm px-8;

@@ -7,11 +7,13 @@ import { Badge } from '@/deps/shadcn/ui/badge';
 import { Button } from '@/deps/shadcn/ui/button';
 import { Spinner } from '@/global/components/spinner';
 
+import articleReference from '@/deps/tiptap/extensions/article-reference/article-reference';
 import embed from '@/deps/tiptap/extensions/embed/embed';
 import image from '@/deps/tiptap/extensions/image/image';
 import topicGroup from '@/deps/tiptap/extensions/topic/topic-group';
 import topicItem from '@/deps/tiptap/extensions/topic/topic-item';
 import video from '@/deps/tiptap/extensions/video/video';
+import youtubeEmbed from '@/deps/tiptap/extensions/youtube-embed/youtube-embed';
 import zigzagGroup from '@/deps/tiptap/extensions/zigzag/zigzag-group';
 import zigzagItem from '@/deps/tiptap/extensions/zigzag/zigzag-item';
 
@@ -175,7 +177,7 @@ export const EditorToolbar = ({
 							size="xs"
 							theme="neutral"
 							variant="ghost"
-							singleIcon="bell"
+							singleIcon="play-solid"
 							disabled={locked}
 							onClick={() => {
 								editor
@@ -252,6 +254,48 @@ export const EditorToolbar = ({
 												attrs: topicItem.defaultAttributes
 											}
 										]
+									})
+									.insertContent({
+										type: 'paragraph',
+										content: []
+									})
+									.run();
+							}}
+						/>
+
+						<Button
+							size="xs"
+							theme="neutral"
+							variant="ghost"
+							singleIcon="play-solid"
+							disabled={locked}
+							onClick={() => {
+								editor
+									.chain()
+									.focus()
+									.insertContent({
+										type: youtubeEmbed.name
+									})
+									.insertContent({
+										type: 'paragraph',
+										content: []
+									})
+									.run();
+							}}
+						/>
+
+						<Button
+							size="xs"
+							theme="neutral"
+							variant="ghost"
+							singleIcon="link"
+							disabled={locked}
+							onClick={() => {
+								editor
+									.chain()
+									.focus()
+									.insertContent({
+										type: articleReference.name
 									})
 									.insertContent({
 										type: 'paragraph',

@@ -15,8 +15,9 @@ const nodeName = 'topicItem';
 const defaultAttributes = {
 	imageId: '',
 	imageUrl: '',
-	title: 'Title',
-	text: 'Text'
+	title: '',
+	text: '',
+	caption: ''
 };
 
 const nodeOptions = {
@@ -40,7 +41,8 @@ const extension = Node.create({
 	addNodeView() {
 		return ReactNodeViewRenderer(
 			({ editor, node, updateAttributes, deleteNode, selected, getPos }) => {
-				const { imageId, text, title } = node.attrs as typeof defaultAttributes;
+				const { imageId, text, title, caption } =
+					node.attrs as typeof defaultAttributes;
 
 				const { moveUp, moveDown } = useNodePosition({
 					getPos,
@@ -71,10 +73,11 @@ const extension = Node.create({
 							'w-full',
 							'flex flex-col gap-4',
 							'p-4 bg-section relative',
+							'rounded-lg',
 							selected && 'bg-accent-weak border-accent-medium'
 						)}>
 						<div className="flex-1 shrink-0">
-							<div className="min-h-[200px] bg-neutral-weak rounded-xl relative overflow-hidden">
+							<div className="min-h-[120px] bg-neutral-weak rounded-xl relative overflow-hidden">
 								{image.file.url && (
 									<img
 										src={image.file.url}
@@ -82,6 +85,19 @@ const extension = Node.create({
 										className="object-cover w-full h-full"
 									/>
 								)}
+
+								{/* Caption */}
+								<div className="absolute bottom-2 left-2 right-0">
+									<input
+										type="text"
+										placeholder="Caption"
+										value={caption}
+										onChange={(e) =>
+											updateAttributes({ caption: e.target.value })
+										}
+										className="w-full caption text-left text-neutral-strong outline-none"
+									/>
+								</div>
 
 								<div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
 									{image.file.id && (
@@ -120,36 +136,6 @@ const extension = Node.create({
 								onChange={(e) => updateAttributes({ text: e.target.value })}
 								className="w-full p-4 caption text-center text-neutral-strong outline-none"
 							/>
-
-							{/* Move Up */}
-							<div className="absolute left-1/2 top-2 -translate-x-1/2 opacity-0 group-hover:opacity-100 duration-300 z-20">
-								<Button
-									variant="solid-weak"
-									size="sm"
-									singleIcon="chevron-up"
-									onClick={moveUp}
-								/>
-							</div>
-
-							{/* Move Down */}
-							<div className="absolute left-1/2 bottom-2 -translate-x-1/2 opacity-0 group-hover:opacity-100 duration-300 z-20">
-								<Button
-									variant="solid-weak"
-									size="sm"
-									singleIcon="chevron-down"
-									onClick={moveDown}
-								/>
-							</div>
-
-							{/* Delete Node */}
-							<div className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 duration-300 z-20">
-								<Button
-									variant="solid-weak"
-									size="sm"
-									singleIcon="delete-circle"
-									onClick={deleteNode}
-								/>
-							</div>
 						</div>
 					</NodeViewWrapper>
 				);

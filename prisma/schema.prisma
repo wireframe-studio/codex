@@ -39,11 +39,18 @@ model Article {
   content Json?
 
   Files S3Object[] @relation("ArticleToFile")
+
+  seriesParentArticleId String?  @unique
+  SeriesParentArticle   Article? @relation(fields: [seriesParentArticleId], references: [id], name: "ArticleToSeriesArticle")
+
+  SeriesArticles Article[] @relation(name: "ArticleToSeriesArticle")
 }
 
 enum ArticleType {
   BLOG
   CASE_STUDY
+  SHOWCASE
+  SERIES_OVERVIEW
 }
 
 // ------------------

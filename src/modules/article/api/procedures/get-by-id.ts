@@ -1,4 +1,5 @@
 import { publicProcedure } from '@/deps/trpc/procedures';
+import { getFileDownloadUrl } from '@/modules/file/helpers/get-download-url';
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 
@@ -13,7 +14,19 @@ export const getByIdProcedure = publicProcedure
 		const { articleId } = input;
 
 		const articleRaw = await db.article.findUnique({
-			where: { id: articleId }
+			where: { id: articleId },
+			include: {
+				CoverImage: {
+					select: {
+						key: true
+					}
+				},
+				BackgroundImage: {
+					select: {
+						key: true
+					}
+				}
+			}
 		});
 
 		if (!articleRaw) {
@@ -35,7 +48,13 @@ export const getByIdProcedure = publicProcedure
 			views: articleRaw.views,
 			reactions: articleRaw.reactions,
 			coverImageId: articleRaw.coverImageId,
-			backgroundImageId: articleRaw.backgroundImageId
+			backgroundImageId: articleRaw.backgroundImageId,
+			coverUrl: articleRaw.CoverImage
+				? await getFileDownloadUrl(articleRaw.CoverImage.key)
+				: null,
+			backgroundUrl: articleRaw.BackgroundImage
+				? await getFileDownloadUrl(articleRaw.BackgroundImage.key)
+				: null
 		};
 
 		return article;

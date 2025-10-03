@@ -60,7 +60,7 @@ export const ArticleImagesForm = () => {
 		<div className="grid grid-cols-2 gap-2 p-4">
 			<div className="flex flex-col">
 				<div className="text-neutral caption">Cover Image</div>
-				<div className="bg-neutral-weak rounded-lg aspect-video w-full relative">
+				<div className="bg-neutral-weak rounded-lg overflow-hidden aspect-video max-w-[240px] w-full relative">
 					{coverImage.file.url && (
 						<img
 							src={coverImage.file.url}
@@ -95,7 +95,7 @@ export const ArticleImagesForm = () => {
 
 			<div className="flex flex-col">
 				<div className="text-neutral caption">Background Image</div>
-				<div className="bg-neutral-weak rounded-lg aspect-video w-full relative">
+				<div className="bg-neutral-weak rounded-lg overflow-hidden aspect-video max-w-[240px] w-full relative">
 					{backgroundImage.file.url && (
 						<img
 							src={backgroundImage.file.url}

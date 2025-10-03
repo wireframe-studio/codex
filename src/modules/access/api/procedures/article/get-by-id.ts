@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 import { publicProcedure } from '@/deps/trpc/procedures';
+import { hydrateArticleReferences } from '@/modules/access/utils/hydrate-article-references';
 import { hydrateImageUrls } from '@/modules/access/utils/hydrate-image-urls';
 import { getFileDownloadUrl } from '@/modules/file/helpers/get-download-url';
 import { TRPCError } from '@trpc/server';
@@ -42,7 +43,9 @@ export const getByIdProcedure = publicProcedure
 			}
 		});
 
-		const hydratedContent = await hydrateImageUrls(articleRaw.content);
+		const hydratedContent = await hydrateArticleReferences(
+			await hydrateImageUrls(articleRaw.content)
+		);
 
 		const article = {
 			id: articleRaw.id,

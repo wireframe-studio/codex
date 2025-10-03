@@ -13,10 +13,10 @@ export const ArticlePage = async ({ params }: PageProps) => {
 
 	return (
 		<ArticleProvider articleId={articleId}>
-			<div className="flex flex-col gap-10 w-full h-full overflow-y-scroll scrollbar-hidden">
+			<div className="flex flex-col items-center gap-10 w-full h-full overflow-y-scroll scrollbar-hidden">
 				<ArticleHeader />
 
-				<div className="px-6 pb-20">
+				<div className="px-6 pb-20 w-full">
 					<ArticleContentForm />
 				</div>
 			</div>

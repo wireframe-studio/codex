@@ -21,7 +21,7 @@ const defaultAttributes = {
 	videoUrl: '',
 	imageId: '',
 	imageUrl: '',
-	caption: 'Hello'
+	caption: ''
 };
 
 const nodeOptions: Partial<NodeConfig> = {

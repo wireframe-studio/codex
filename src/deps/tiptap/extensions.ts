@@ -18,11 +18,13 @@ import { Text } from '@tiptap/extension-text';
 import { TrailingNode } from '@tiptap/extensions/trailing-node';
 
 import { type Extensions } from '@tiptap/react';
+import articleReference from './extensions/article-reference/article-reference';
 import embed from './extensions/embed/embed';
 import image from './extensions/image/image';
 import topicGroup from './extensions/topic/topic-group';
 import topicItem from './extensions/topic/topic-item';
 import video from './extensions/video/video';
+import youtubeEmbed from './extensions/youtube-embed/youtube-embed';
 import zigzagGroup from './extensions/zigzag/zigzag-group';
 import zigzagItem from './extensions/zigzag/zigzag-item';
 
@@ -83,6 +85,8 @@ export const extensions: Extensions = [
 	topicGroup.extension,
 	topicItem.extension,
 	video.extension,
+	youtubeEmbed.extension,
+	articleReference.extension,
 	embed.extension,
 	image.extension,
 	History

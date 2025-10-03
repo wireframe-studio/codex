@@ -19,7 +19,7 @@ const nodeName = 'image-block';
 const defaultAttributes = {
 	imageId: '',
 	imageUrl: '',
-	caption: 'Hello'
+	caption: ''
 };
 
 const nodeOptions: Partial<NodeConfig> = {
@@ -65,7 +65,7 @@ const extension = Node.create({
 						'border rounded-lg border-neutral-medium flex flex-col items-center w-full overflow-hidden container-md',
 						selected && 'bg-accent-weak border-accent-medium'
 					)}>
-					<div className="min-h-[200px] w-full bg-neutral-weak relative overflow-hidden border-b border-b-neutral-medium">
+					<div className="min-h-[200px] w-full bg-section relative overflow-hidden border-b border-b-neutral-medium">
 						{image.file.url && (
 							<img
 								src={image.file.url}

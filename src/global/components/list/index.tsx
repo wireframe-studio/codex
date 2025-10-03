@@ -64,7 +64,7 @@ export const Items: FC<{ showSkeleton?: boolean } & PropsWithChildren> = ({
 	showSkeleton
 }) => {
 	return (
-		<div className="flex flex-col bg-section rounded-xl overflow-x-auto">
+		<div className="flex flex-col gap-px rounded-xl overflow-x-auto">
 			{showSkeleton ? <ListSkeleton /> : children}
 		</div>
 	);
@@ -76,7 +76,7 @@ export const Item: FC<
 	return (
 		<div
 			className={cn(
-				'flex flex-row items-center gap-2 px-3 md:px-4 py-4',
+				'flex flex-row items-center bg-section hover:bg-section/80 duration-100 gap-2 px-3 md:px-4 py-4',
 				className
 			)}
 			style={style}>
