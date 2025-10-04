@@ -22,8 +22,8 @@ model User {
   sessions  Session[]
   accounts  Account[]
 
-  Articles      Article[]            @relation("UserToArticle")
-  Organizations UserToOrganization[]
+  Articles Article[]    @relation("UserToArticle")
+  Sites    UserToSite[]
 
   @@unique([email])
   @@map("user")
@@ -76,7 +76,7 @@ model Verification {
 
 // ------------------
 
-model Organization {
+model Site {
   id String @id @default(cuid())
 
   createdAt DateTime @default(now())
@@ -86,19 +86,19 @@ model Organization {
   webhookUrl String?
   apiKey     String? @unique
 
-  Users UserToOrganization[]
+  Users UserToSite[]
 }
 
-model UserToOrganization {
+model UserToSite {
   userId String
   User   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  organizationId String
-  Organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  siteId String
+  Site   Site   @relation(fields: [siteId], references: [id], onDelete: Cascade)
 
-  @@id([userId, organizationId])
-  @@unique([userId, organizationId])
-  @@map("user_to_organization")
+  @@id([userId, siteId])
+  @@unique([userId, siteId])
+  @@map("user_to_site")
 }
 
 // ------------------

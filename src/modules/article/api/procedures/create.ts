@@ -1,15 +1,13 @@
-import { publicProcedure } from '@/deps/trpc/trpc';
+import { authedProcedure } from '@/deps/trpc/trpc';
 
-export const createProcedure = publicProcedure.mutation(
-	async ({ ctx, input }) => {
-		const { db } = ctx;
+export const createProcedure = authedProcedure.mutation(async ({ ctx }) => {
+	const { db, user } = ctx;
 
-		const articleRaw = await db.article.create({
-			data: {}
-		});
+	const articleRaw = await db.article.create({
+		data: { Authors: { connect: { id: user.id } }, title: 'New Article' }
+	});
 
-		const article = articleRaw;
+	const article = articleRaw;
 
-		return { article };
-	}
-);
+	return { article };
+});

@@ -66,6 +66,17 @@ export const Sidebar = () => {
 
 			{/* Article List */}
 			<div className="flex-1 px-1 overflow-y-scroll scrollbar-hidden flex flex-col">
+				<Link href={`/sites`}>
+					<Button variant={'solid-weak'} className="w-full justify-start">
+						Sites
+					</Button>
+				</Link>
+				<Link href={`/users`}>
+					<Button variant={'solid-weak'} className="w-full justify-start">
+						Users
+					</Button>
+				</Link>
+				<br />
 				{articleList.data?.articles.map((article) => {
 					const isSelected = selectedArticleId === article.id;
 

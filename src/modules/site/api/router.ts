@@ -2,12 +2,12 @@ import { createTRPCRouter } from '@/deps/trpc/trpc';
 
 import { getByIdProcedure } from './procedures/get-by-id';
 import { listProcedure } from './procedures/list';
-import { listBySiteIdProcedure } from './procedures/list-by-site-id';
+import { listByUserIdProcedure } from './procedures/list-by-user-id';
 import { updateProcedure } from './procedures/update';
 
-export const userRouter = createTRPCRouter({
+export const siteRouter = createTRPCRouter({
 	getById: getByIdProcedure,
 	list: listProcedure,
-	listBySiteId: listBySiteIdProcedure,
+	listByUserId: listByUserIdProcedure,
 	update: updateProcedure
 });

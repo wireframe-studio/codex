@@ -21,6 +21,12 @@ export const auth = betterAuth({
 		}
 	},
 
+	emailVerification: {
+		sendVerificationEmail: async ({ user: _user, url: _url }) => {
+			// implement your logic here to send email verification
+		}
+	},
+
 	databaseHooks: {
 		user: {
 			create: {

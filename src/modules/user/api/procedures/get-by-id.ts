@@ -17,9 +17,9 @@ export const getByIdProcedure = authedProcedure
 		const userRaw = await db.user.findUnique({
 			where: { id: userId },
 			include: {
-				Organizations: {
+				Sites: {
 					include: {
-						Organization: true
+						Site: true
 					}
 				}
 			}

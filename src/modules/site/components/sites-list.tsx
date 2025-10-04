@@ -15,28 +15,28 @@ import {
 import { Spinner } from '@/global/components/spinner';
 import Link from 'next/link';
 
-export const UsersList = () => {
-	const usersQuery = api.user.list.useQuery();
+export const SitesList = () => {
+	const sitesQuery = api.site.list.useQuery();
 
-	if (!usersQuery.data) return <Spinner />;
+	if (!sitesQuery.data) return <Spinner />;
 
-	const users = usersQuery.data?.users;
+	const sites = sitesQuery.data?.sites;
 
 	return (
 		<List>
 			<Labels>
 				<Label>Name</Label>
-				<Label>Email</Label>
+				<Label>Webhook URL</Label>
 				<ActionsLabel />
 			</Labels>
 
 			<Items>
-				{users.map((user) => (
-					<Item key={user.id}>
-						<Data>{user.name}</Data>
-						<Data>{user.email}</Data>
+				{sites.map((site) => (
+					<Item key={site.id}>
+						<Data>{site.name}</Data>
+						<Data>{site.webhookUrl}</Data>
 						<Actions>
-							<Link href={`/users/${user.id}`}>
+							<Link href={`/sites/${site.id}`}>
 								<Button singleIcon="edit" size="sm" variant="ghost" />
 							</Link>
 						</Actions>

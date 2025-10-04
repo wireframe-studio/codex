@@ -1,5 +1,7 @@
 'use client';
 
+import { type FC } from 'react';
+
 import { Button } from '@/deps/shadcn/ui/button';
 import { api } from '@/deps/trpc/react';
 import {
@@ -15,18 +17,17 @@ import {
 import { Spinner } from '@/global/components/spinner';
 import Link from 'next/link';
 
-export const UsersList = () => {
-	const usersQuery = api.user.list.useQuery();
+export const SiteUsersList: FC<{ siteId: string }> = ({ siteId }) => {
+	const userQuery = api.user.listBySiteId.useQuery({ siteId });
 
-	if (!usersQuery.data) return <Spinner />;
+	if (!userQuery.data) return <Spinner />;
 
-	const users = usersQuery.data?.users;
+	const users = userQuery.data?.users;
 
 	return (
 		<List>
 			<Labels>
 				<Label>Name</Label>
-				<Label>Email</Label>
 				<ActionsLabel />
 			</Labels>
 
@@ -37,7 +38,7 @@ export const UsersList = () => {
 						<Data>{user.email}</Data>
 						<Actions>
 							<Link href={`/users/${user.id}`}>
-								<Button singleIcon="edit" size="sm" variant="ghost" />
+								<Button singleIcon="arrow-right" size="sm" variant="ghost" />
 							</Link>
 						</Actions>
 					</Item>
