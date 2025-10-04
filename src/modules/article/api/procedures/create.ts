@@ -1,4 +1,4 @@
-import { publicProcedure } from '@/deps/trpc/procedures';
+import { publicProcedure } from '@/deps/trpc/trpc';
 
 export const createProcedure = publicProcedure.mutation(
 	async ({ ctx, input }) => {

@@ -1,4 +1,4 @@
-import { publicProcedure } from '@/deps/trpc/procedures';
+import { publicProcedure } from '@/deps/trpc/trpc';
 import { getFileDownloadUrl } from '@/modules/file/helpers/get-download-url';
 
 export const listProcedure = publicProcedure

@@ -1,4 +1,4 @@
-import { publicProcedure } from '@/deps/trpc/procedures';
+import { publicProcedure } from '@/deps/trpc/trpc';
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 

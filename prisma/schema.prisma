@@ -10,6 +10,99 @@ datasource db {
 
 // ------------------
 
+model User {
+  id            String  @id
+  name          String
+  email         String
+  emailVerified Boolean @default(false)
+  image         String?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  sessions  Session[]
+  accounts  Account[]
+
+  Articles      Article[]            @relation("UserToArticle")
+  Organizations UserToOrganization[]
+
+  @@unique([email])
+  @@map("user")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now()) @updatedAt
+
+  @@map("verification")
+}
+
+// ------------------
+
+model Organization {
+  id String @id @default(cuid())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name       String
+  webhookUrl String?
+  apiKey     String? @unique
+
+  Users UserToOrganization[]
+}
+
+model UserToOrganization {
+  userId String
+  User   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  organizationId String
+  Organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@id([userId, organizationId])
+  @@unique([userId, organizationId])
+  @@map("user_to_organization")
+}
+
+// ------------------
+
 model Article {
   id String @id @default(cuid())
 
@@ -22,13 +115,13 @@ model Article {
   backgroundImageId String?   @unique
   BackgroundImage   S3Object? @relation(fields: [backgroundImageId], references: [id], name: "ArticleToBackgroundImage")
 
-  title       String       @default("New Article")
-  slug        String?      @unique
+  title       String    @default("New Article")
+  slug        String?   @unique
   description String?
-  date        DateTime?    @default(now())
-  // author String?
-  tags        String[]
-  type        ArticleType? @default(BLOG)
+  date        DateTime? @default(now())
+
+  tags String[]
+  type ArticleType? @default(BLOG)
 
   companyVisibility Boolean @default(false)
   published         Boolean @default(false)
@@ -38,7 +131,8 @@ model Article {
 
   content Json?
 
-  Files S3Object[] @relation("ArticleToFile")
+  Authors User[]     @relation("UserToArticle")
+  Files   S3Object[] @relation("ArticleToFile")
 
   seriesParentArticleId String?  @unique
   SeriesParentArticle   Article? @relation(fields: [seriesParentArticleId], references: [id], name: "ArticleToSeriesArticle")

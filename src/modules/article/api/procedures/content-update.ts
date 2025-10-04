@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { authedProcedure } from '@/deps/trpc/procedures';
+import { authedProcedure } from '@/deps/trpc/trpc';
 import { JSONContent } from '@tiptap/react';
 import { TRPCError } from '@trpc/server';
 

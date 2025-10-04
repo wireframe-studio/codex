@@ -1,4 +1,4 @@
-import { authedProcedure } from '@/deps/trpc/procedures';
+import { authedProcedure } from '@/deps/trpc/trpc';
 import { articleMetadataUpdateSchema } from '@/modules/editor/forms/article-metadata-update/article-metadata-update-schema';
 
 import { TRPCError } from '@trpc/server';

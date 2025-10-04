@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { publicProcedure } from '@/deps/trpc/procedures';
+import { publicProcedure } from '@/deps/trpc/trpc';
 import { hydrateArticleReferences } from '@/modules/access/utils/hydrate-article-references';
 import { hydrateImageUrls } from '@/modules/access/utils/hydrate-image-urls';
 import { getFileDownloadUrl } from '@/modules/file/helpers/get-download-url';

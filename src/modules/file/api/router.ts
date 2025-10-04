@@ -1,5 +1,8 @@
-import { authedProcedure, publicProcedure } from '@/deps/trpc/procedures';
-import { createTRPCRouter } from '@/deps/trpc/trpc';
+import {
+	authedProcedure,
+	createTRPCRouter,
+	publicProcedure
+} from '@/deps/trpc/trpc';
 import { removeBackground } from '@imgly/background-removal-node';
 import { TRPCError } from '@trpc/server';
 import { nanoid } from 'nanoid';

@@ -1,4 +1,4 @@
-import { db } from '@/deps/db';
+import { db } from '@/deps/prisma';
 import { getFileDownloadUrl } from '@/modules/file/helpers/get-download-url';
 
 const pairsToHydrate = [

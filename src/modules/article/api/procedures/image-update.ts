@@ -1,4 +1,4 @@
-import { authedProcedure } from '@/deps/trpc/procedures';
+import { authedProcedure } from '@/deps/trpc/trpc';
 import { TRPCError } from '@trpc/server';
 import z from 'zod';
 
