@@ -85,31 +85,33 @@ export const useArticleMetadataForm = () => {
 			articleId: articleId,
 			metadata: {
 				title: data.title,
-				tags: data.tags,
-				companyVisibility: data.companyVisibility,
-				date: data.date,
-				type: data.type,
-				published: data.published,
+				slug: data.slug,
 				description: data.description,
-				slug: data.slug
+				date: data.date,
+				tags: data.tags,
+				type: data.type,
+				companyVisibility: data.companyVisibility,
+				published: data.published
 			}
 		});
 
 		// Update the form with the response data to prevent reset
 		form.reset({
 			title: updatedArticle.article.title,
-			tags: updatedArticle.article.tags || [],
+			slug: updatedArticle.article.slug ?? undefined,
 			description: updatedArticle.article.description,
 			date: updatedArticle.article.date,
+			tags: updatedArticle.article.tags || [],
 			type: updatedArticle.article.type ?? undefined,
 			companyVisibility: updatedArticle.article.companyVisibility,
-			published: updatedArticle.article.published,
-			slug: updatedArticle.article.slug ?? undefined
+			published: updatedArticle.article.published
 		});
 
 		// utils.article.get.invalidate({ articleId: articleId! });
 		utils.article.get.setData({ articleId: articleId }, (prev) => ({
-			prev,
+			...(prev ?? {}),
+			coverUrl: prev?.coverUrl ?? null,
+			backgroundUrl: prev?.backgroundUrl ?? null,
 			...updatedArticle.article
 		}));
 
