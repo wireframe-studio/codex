@@ -57,7 +57,7 @@ CREATE TABLE "verification" (
 );
 
 -- CreateTable
-CREATE TABLE "Site" (
+CREATE TABLE "Organization" (
     "id" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -65,15 +65,15 @@ CREATE TABLE "Site" (
     "webhookUrl" TEXT,
     "apiKey" TEXT,
 
-    CONSTRAINT "Site_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Organization_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "user_to_site" (
+CREATE TABLE "user_to_organization" (
     "userId" TEXT NOT NULL,
-    "siteId" TEXT NOT NULL,
+    "organizationId" TEXT NOT NULL,
 
-    CONSTRAINT "user_to_site_pkey" PRIMARY KEY ("userId","siteId")
+    CONSTRAINT "user_to_organization_pkey" PRIMARY KEY ("userId","organizationId")
 );
 
 -- CreateTable
@@ -91,10 +91,10 @@ CREATE UNIQUE INDEX "user_email_key" ON "user"("email");
 CREATE UNIQUE INDEX "session_token_key" ON "session"("token");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Site_apiKey_key" ON "Site"("apiKey");
+CREATE UNIQUE INDEX "Organization_apiKey_key" ON "Organization"("apiKey");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "user_to_site_userId_siteId_key" ON "user_to_site"("userId", "siteId");
+CREATE UNIQUE INDEX "user_to_organization_userId_organizationId_key" ON "user_to_organization"("userId", "organizationId");
 
 -- CreateIndex
 CREATE INDEX "_UserToArticle_B_index" ON "_UserToArticle"("B");
@@ -106,10 +106,10 @@ ALTER TABLE "session" ADD CONSTRAINT "session_userId_fkey" FOREIGN KEY ("userId"
 ALTER TABLE "account" ADD CONSTRAINT "account_userId_fkey" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "user_to_site" ADD CONSTRAINT "user_to_site_userId_fkey" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "user_to_organization" ADD CONSTRAINT "user_to_organization_userId_fkey" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "user_to_site" ADD CONSTRAINT "user_to_site_siteId_fkey" FOREIGN KEY ("siteId") REFERENCES "Site"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "user_to_organization" ADD CONSTRAINT "user_to_organization_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "Organization"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_UserToArticle" ADD CONSTRAINT "_UserToArticle_A_fkey" FOREIGN KEY ("A") REFERENCES "Article"("id") ON DELETE CASCADE ON UPDATE CASCADE;
