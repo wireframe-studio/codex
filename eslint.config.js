@@ -7,6 +7,9 @@ export default tseslint.config(
 	...tseslint.configs.recommendedTypeChecked,
 	...tseslint.configs.stylisticTypeChecked,
 	{
+		env: {
+			node: true
+		},
 		files: ['**/*.{js,jsx,ts,tsx}'],
 		plugins: {
 			'@next/next': nextPlugin

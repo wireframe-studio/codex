@@ -1,3 +1,4 @@
+import { env } from '@/env';
 import { betterAuth } from 'better-auth';
 import { prismaAdapter } from 'better-auth/adapters/prisma';
 import { db } from '../prisma';
@@ -6,6 +7,8 @@ export const auth = betterAuth({
 	database: prismaAdapter(db, {
 		provider: 'postgresql'
 	}),
+
+	secret: env.JWT_SECRET,
 
 	emailAndPassword: {
 		enabled: true
